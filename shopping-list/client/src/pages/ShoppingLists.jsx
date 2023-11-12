@@ -4,7 +4,7 @@ import { Col, Row } from 'react-bootstrap';
 import Card from '../components/Card';
 
 const ShoppingLists = (prop) => (
-  <Container className="d-flex justify-content-between align-items-center mb-5">
+  <Container className="d-flex justify-content-center align-items-center mb-5">
     <Row>
       {prop.shoppingLists.sort((a, b) => a.name.localeCompare(b.name)).map(
         (shoppingList) => (
