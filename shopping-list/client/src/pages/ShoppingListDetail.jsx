@@ -26,7 +26,7 @@ const ShoppingListDetail = ({ users, shoppingLists, setShoppingLists }) => {
   return (
     <Container className="mt-5 mb-5">
       <Form onSubmit={(e) => e.preventDefault()}>
-        <div className="d-flex justify-content-evenly">
+        <div className="d-flex justify-content-center">
           <ShoppingListForm
             users={users}
             shoppingList={shoppingList}
