@@ -1,7 +1,7 @@
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as ReactRouter, Outlet, Route, Routes,
 } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import ShoppingLists from '../pages/ShoppingLists';
 import ShoppingListDetail from '../pages/ShoppingListDetail';
 import NavigationBar from './NavigationBar';
@@ -90,7 +90,11 @@ const Router = () => {
   const routes = [
     {
       path: '/',
-      element: <ShoppingLists shoppingLists={shoppingLists} />,
+      element: <ShoppingLists
+        users={mockUsers}
+        shoppingLists={shoppingLists}
+        setShoppingLists={setShoppingLists}
+      />,
     },
     {
       path: '/shopping-lists/:id',

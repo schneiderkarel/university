@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormControl, FormGroup, FormLabel } from 'react-bootstrap';
 import { ShoppingListInvitees } from './ShoppingListInvitees';
-import { isUserShoppingListOwner } from './helper';
+import { ShoppingListItems } from './ShoppingListItems';
 
-export const ShoppingListForm = ({ users, shoppingList, setShoppingList }) => {
+export const ShoppingListCreateForm = ({ users, shoppingList, setShoppingList }) => {
   const setName = (value) => {
     setShoppingList((prev) => ({
       ...prev,
@@ -27,49 +27,53 @@ export const ShoppingListForm = ({ users, shoppingList, setShoppingList }) => {
   };
 
   return (
-    <FormGroup className="mb-3 w-50">
-      <h4>Detail</h4>
+    <div className="d-flex">
+      <FormGroup className="mb-3 w-50">
+        <h4>Detail</h4>
 
-      <FormGroup className="mb-3 mt-3">
-        <FormLabel>Name</FormLabel>
-        <FormControl
-          value={shoppingList.name}
-          disabled={!isUserShoppingListOwner(shoppingList)}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </FormGroup>
+        <FormGroup className="mb-3 mt-3">
+          <FormLabel>Name</FormLabel>
+          <FormControl
+            value={shoppingList.name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </FormGroup>
 
-      <FormGroup className="mb-3 mt-3">
-        <FormLabel>Image</FormLabel>
-        <FormControl
-          value={shoppingList.image}
-          onChange={(e) => setImage(e.target.value)}
-        />
-      </FormGroup>
+        <FormGroup className="mb-3 mt-3">
+          <FormLabel>Image</FormLabel>
+          <FormControl
+            value={shoppingList.image}
+            onChange={(e) => setImage(e.target.value)}
+          />
+        </FormGroup>
 
-      <FormGroup className="mb-3 mt-3">
-        <FormLabel>Description</FormLabel>
-        <FormControl
-          as="textarea"
-          rows={10}
-          value={shoppingList.description}
-          onChange={(e) => setDescription(e.target.value)}
-          style={{ resize: 'none' }}
-        />
-      </FormGroup>
+        <FormGroup className="mb-3 mt-3">
+          <FormLabel>Description</FormLabel>
+          <FormControl
+            as="textarea"
+            rows={10}
+            value={shoppingList.description}
+            onChange={(e) => setDescription(e.target.value)}
+            style={{ resize: 'none' }}
+          />
+        </FormGroup>
 
-      {isUserShoppingListOwner(shoppingList) && (
         <ShoppingListInvitees
           users={users}
           shoppingListInvitees={shoppingList.invitees}
           setShoppingList={setShoppingList}
         />
-      )}
-    </FormGroup>
+      </FormGroup>
+
+      <ShoppingListItems
+        shoppingListItems={shoppingList.items}
+        setShoppingList={setShoppingList}
+      />
+    </div>
   );
 };
 
-ShoppingListForm.propTypes = {
+ShoppingListCreateForm.propTypes = {
   users: PropTypes.arrayOf(
     PropTypes.shape(
       {
@@ -106,4 +110,4 @@ ShoppingListForm.propTypes = {
   setShoppingList: PropTypes.func.isRequired,
 };
 
-export default ShoppingListForm;
+export default ShoppingListCreateForm;

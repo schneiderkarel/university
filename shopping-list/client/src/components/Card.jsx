@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import {
   Card as CardWrap, CardBody, CardImg, CardText, CardTitle,
 } from 'react-bootstrap';
+import React from 'react';
 
-const Card = (item) => {
+const Card = ({
+  id, title, image, description, link,
+}) => {
   const TITLE_CHAR_CEILING = 20;
   const DESCRIPTION_CHAR_CEILING = 175;
 
@@ -17,22 +20,22 @@ const Card = (item) => {
   };
 
   return (
-    <CardWrap key={item.id} style={{ width: '17rem' }}>
+    <CardWrap key={id} style={{ width: '17rem', minHeight: '30rem' }}>
       <CardImg
         className="object-fit-none"
         style={{ height: '190px' }}
         variant="top"
-        src={item.image}
+        src={image}
       />
       <CardBody>
-        <CardTitle>{ceilingText(item.title, TITLE_CHAR_CEILING)}</CardTitle>
+        <CardTitle>{ceilingText(title, TITLE_CHAR_CEILING)}</CardTitle>
         <CardText>
-          {ceilingText(item.description, DESCRIPTION_CHAR_CEILING)}
+          {ceilingText(description, DESCRIPTION_CHAR_CEILING)}
         </CardText>
       </CardBody>
       <CardBody className="d-flex align-items-end">
         <Button
-          href={item.link}
+          href={link}
           variant="primary"
         >
           Detail
