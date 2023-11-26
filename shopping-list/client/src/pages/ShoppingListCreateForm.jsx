@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormControl, FormGroup, FormLabel } from 'react-bootstrap';
 import { ShoppingListInvitees } from './ShoppingListInvitees';
-import { isUserShoppingListOwner } from './helper';
 import { ShoppingListItems } from './ShoppingListItems';
 
 export const ShoppingListCreateForm = ({ users, shoppingList, setShoppingList }) => {
@@ -36,7 +35,6 @@ export const ShoppingListCreateForm = ({ users, shoppingList, setShoppingList })
           <FormLabel>Name</FormLabel>
           <FormControl
             value={shoppingList.name}
-            disabled={!isUserShoppingListOwner(shoppingList)}
             onChange={(e) => setName(e.target.value)}
           />
         </FormGroup>
