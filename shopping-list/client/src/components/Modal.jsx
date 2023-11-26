@@ -3,9 +3,9 @@ import { Modal as BootstrapModal } from 'react-bootstrap';
 import ModalContext from '../context/modal.context';
 
 const Modal = () => {
-  const [Content, setContent] = useContext(ModalContext);
+  const [content, setContent] = useContext(ModalContext);
 
-  const contentIsEmpty = () => Content === null;
+  const contentIsEmpty = () => content === null;
 
   const handleClose = () => {
     setContent(null);
@@ -23,7 +23,7 @@ const Modal = () => {
         backdrop="static"
         keyboard={false}
       >
-        {Content}
+        {content}
       </BootstrapModal>
     )
   );

@@ -57,10 +57,7 @@ const ShoppingLists = ({
                 className="d-flex justify-content-evenly mt-5"
               >
                 <ShoppingListCard
-                  id={shoppingList.id}
-                  title={shoppingList.name}
-                  image={shoppingList.image}
-                  description={shoppingList.description}
+                  shoppingList={shoppingList}
                   link={`/shopping-lists/${shoppingList.id}`}
                   shoppingLists={shoppingLists}
                   setShoppingLists={setShoppingLists}

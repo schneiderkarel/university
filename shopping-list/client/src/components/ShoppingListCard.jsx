@@ -13,12 +13,10 @@ import React, { useContext } from 'react';
 import ModalContext from '../context/modal.context';
 import ShoppingListRemoveModalContent from './ShoppingListRemoveModalContent';
 import { shoppingListType } from '../types/types';
+import { isUserShoppingListOwner } from '../pages/helper';
 
 const ShoppingListCard = ({
-  id,
-  title,
-  image,
-  description,
+  shoppingList,
   link,
   shoppingLists,
   setShoppingLists,
@@ -38,7 +36,7 @@ const ShoppingListCard = ({
 
   return (
     <CardWrap
-      key={id}
+      key={shoppingList.id}
       style={{
         width: '17rem',
         minHeight: '30rem',
@@ -48,12 +46,12 @@ const ShoppingListCard = ({
         className="object-fit-none"
         style={{ height: '190px' }}
         variant="top"
-        src={image}
+        src={shoppingList.image}
       />
       <CardBody>
-        <CardTitle>{ceilingText(title, TITLE_CHAR_CEILING)}</CardTitle>
+        <CardTitle>{ceilingText(shoppingList.name, TITLE_CHAR_CEILING)}</CardTitle>
         <CardText>
-          {ceilingText(description, DESCRIPTION_CHAR_CEILING)}
+          {ceilingText(shoppingList.description, DESCRIPTION_CHAR_CEILING)}
         </CardText>
       </CardBody>
       <CardBody className="d-flex justify-content-end align-items-center">
@@ -63,21 +61,25 @@ const ShoppingListCard = ({
           title="Detail"
         >
           <DropdownItem eventKey="1">Archive</DropdownItem>
-          <DropdownDivider />
-          <DropdownItem
-            eventKey="2"
-            onClick={() => {
-              setModalContent(
-                <ShoppingListRemoveModalContent
-                  id={id}
-                  shoppingLists={shoppingLists}
-                  setShoppingLists={setShoppingLists}
-                />,
-              );
-            }}
-          >
-            Delete
-          </DropdownItem>
+          {isUserShoppingListOwner(shoppingList) && (
+            <div>
+              <DropdownDivider />
+              <DropdownItem
+                eventKey="2"
+                onClick={() => {
+                  setModalContent(
+                    <ShoppingListRemoveModalContent
+                      id={shoppingList.id}
+                      shoppingLists={shoppingLists}
+                      setShoppingLists={setShoppingLists}
+                    />,
+                  );
+                }}
+              >
+                Delete
+              </DropdownItem>
+            </div>
+          )}
         </SplitButton>
       </CardBody>
     </CardWrap>
@@ -85,10 +87,7 @@ const ShoppingListCard = ({
 };
 
 ShoppingListCard.propTypes = {
-  id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  shoppingList: shoppingListType().isRequired,
   link: PropTypes.string.isRequired,
   shoppingLists: PropTypes.arrayOf(shoppingListType().isRequired).isRequired,
   setShoppingLists: PropTypes.func.isRequired,
