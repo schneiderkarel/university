@@ -1,17 +1,17 @@
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Container from 'react-bootstrap/Container';
 import { Form } from 'react-bootstrap';
-import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import ShoppingListForm from './ShoppingListForm';
-import ShoppingListItems from './ShoppingListItems';
+import { ShoppingListForm } from './ShoppingListForm';
+import { ShoppingListItems } from './ShoppingListItems';
 import { isUserShoppingListOwner } from './helper';
 
 const ShoppingListDetail = ({ users, shoppingLists, setShoppingLists }) => {
   const { id } = useParams();
 
-  const [shoppingList, setShoppingList] = useState(shoppingLists.find((shoppingList) => id === shoppingList.id));
+  const [shoppingList, setShoppingList] = useState(shoppingLists.find((s) => id === s.id));
 
   const saveButtonClick = () => {
     const restShoppingLists = shoppingLists.filter((item) => item.id !== shoppingList.id);

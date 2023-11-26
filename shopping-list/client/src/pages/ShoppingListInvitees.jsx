@@ -1,19 +1,28 @@
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, FormSelect, InputGroup } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-import { useEffect, useState } from 'react';
-import ShoppingListInvitee from './ShoppingListInvitee';
+import { ShoppingListInvitee } from './ShoppingListInvitee';
 
-export const ShoppingListInvitees = (prop) => {
-  const [invitees, setInvitees] = useState(prop.shoppingListInvitees);
+export const ShoppingListInvitees = ({
+  users,
+  shoppingListInvitees,
+  setShoppingList,
+}) => {
+  const [invitees, setInvitees] = useState(shoppingListInvitees);
 
   useEffect(() => {
-    prop.setShoppingList((prev) => ({ ...prev, invitees }));
-  }, [invitees, prop.setShoppingList]);
+    setShoppingList((prev) => ({
+      ...prev,
+      invitees,
+    }));
+  }, [invitees, setShoppingList]);
 
   const [selectedInvitee, setSelectedInvitee] = useState({});
 
-  const inviteeSelectChange = (e) => setSelectedInvitee(prop.users.find((user) => user.id === e.target.value));
+  const inviteeSelectChange = (e) => setSelectedInvitee(
+    users.find((user) => user.id === e.target.value),
+  );
 
   const inviteesNotEmpty = (its) => its.length !== 0;
 
@@ -31,7 +40,9 @@ export const ShoppingListInvitees = (prop) => {
   };
 
   const displayInviteUserOptions = () => {
-    const usersWithoutAlreadyInvitedUsers = prop.users.filter((user) => !invitees.some((invitee) => invitee.id === user.id));
+    const usersWithoutAlreadyInvitedUsers = users.filter(
+      (user) => !invitees.some((invitee) => invitee.id === user.id),
+    );
 
     return (
       usersWithoutAlreadyInvitedUsers.map((user) => (
@@ -78,6 +89,14 @@ export const ShoppingListInvitees = (prop) => {
 };
 
 ShoppingListInvitees.propTypes = {
+  users: PropTypes.arrayOf(
+    PropTypes.shape(
+      {
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+      },
+    ).isRequired,
+  ).isRequired,
   shoppingListInvitees: PropTypes.arrayOf(
     PropTypes.shape(
       {

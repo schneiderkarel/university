@@ -1,28 +1,30 @@
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormControl, FormGroup, InputGroup } from 'react-bootstrap';
-import { useState } from 'react';
 import InputGroupText from 'react-bootstrap/InputGroupText';
 import Button from 'react-bootstrap/Button';
 
-export const ShoppingListItem = (prop) => {
-  const [item, setItem] = useState(prop.shoppingListItem);
+export const ShoppingListItem = ({
+  shoppingListItem, shoppingListItemChange, shoppingListItemRemove,
+}) => {
+  const [item, setItem] = useState(shoppingListItem);
 
   const nameChange = (value) => {
     const newValue = { ...item, name: value };
     setItem(newValue);
-    prop.shoppingListItemChange(item.id, newValue);
+    shoppingListItemChange(item.id, newValue);
   };
 
   const quantityChange = (value) => {
     const newValue = { ...item, quantity: value };
     setItem(newValue);
-    prop.shoppingListItemChange(item.id, newValue);
+    shoppingListItemChange(item.id, newValue);
   };
 
   const resolvedChange = (value) => {
     const newValue = { ...item, resolved: value };
     setItem(newValue);
-    prop.shoppingListItemChange(item.id, newValue);
+    shoppingListItemChange(item.id, newValue);
   };
 
   return (
@@ -47,7 +49,7 @@ export const ShoppingListItem = (prop) => {
 
         <Button
           variant="outline-danger"
-          onClick={() => prop.shoppingListItemRemove(item.id)}
+          onClick={() => shoppingListItemRemove(item.id)}
         >
           x
         </Button>
@@ -65,8 +67,8 @@ ShoppingListItem.propTypes = {
       resolved: PropTypes.bool.isRequired,
     },
   ).isRequired,
-  shoppingListItemChange: PropTypes.func,
-  shoppingListItemRemove: PropTypes.func,
+  shoppingListItemChange: PropTypes.func.isRequired,
+  shoppingListItemRemove: PropTypes.func.isRequired,
 };
 
 export default ShoppingListItem;

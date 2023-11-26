@@ -1,3 +1,4 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, InputGroup } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
@@ -28,7 +29,7 @@ ShoppingListInvitee.propTypes = {
       name: PropTypes.string.isRequired,
     },
   ).isRequired,
-  removeShoppingListInvitee: PropTypes.func,
+  removeShoppingListInvitee: PropTypes.func.isRequired,
 };
 
 export default ShoppingListInvitee;

@@ -1,16 +1,16 @@
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormCheck, FormGroup } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import ShoppingListItem from './ShoppingListItem';
+import { ShoppingListItem } from './ShoppingListItem';
 
-export const ShoppingListItems = (prop) => {
-  const [items, setItems] = useState(prop.shoppingListItems);
+export const ShoppingListItems = ({ shoppingListItems, setShoppingList }) => {
+  const [items, setItems] = useState(shoppingListItems);
 
   useEffect(() => {
-    prop.setShoppingList((prev) => ({ ...prev, items }));
-  }, [items, prop.setShoppingList]);
+    setShoppingList((prev) => ({ ...prev, items }));
+  }, [items, setShoppingList]);
 
   const itemsNotEmpty = (its) => its?.length !== 0;
 
