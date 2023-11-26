@@ -1,7 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import Container from 'react-bootstrap/Container';
-import { Card as CardWrap, Col, Row } from 'react-bootstrap';
+import {
+  Card as CardWrap, Col, FormCheck, Row,
+} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Icon from '@mdi/react';
 import { mdiPlaylistPlus } from '@mdi/js';
@@ -18,18 +20,54 @@ const ShoppingLists = ({
 }) => {
   const [modalContent, setModalContent] = useContext(ModalContext);
 
+  const [unarchivedFilter, setUnarchivedFilter] = useState(false);
+
+  const filtersSection = () => (
+    <div className="mt-3">
+      <h5>Filters</h5>
+
+      <FormCheck
+        type="switch"
+        className="mt-3 mb-3"
+        label="Unarchived"
+        onChange={() => setUnarchivedFilter(!unarchivedFilter)}
+      />
+    </div>
+  );
+
+  const applyUnarchivedFilter = (lists) => (
+    unarchivedFilter
+      ? lists.filter((shoppingList) => !shoppingList.archived)
+      : lists
+  );
+
+  const displayShoppingLists = () => {
+    let notArchived = shoppingLists.filter((shoppingList) => !shoppingList.archived);
+    let archived = shoppingLists.filter((shoppingList) => shoppingList.archived);
+
+    notArchived = notArchived.sort((a, b) => a.name.localeCompare(b.name));
+    archived = archived.sort((a, b) => a.name.localeCompare(b.name));
+
+    return applyUnarchivedFilter(notArchived.concat(archived));
+  };
+
   return (
-    <Container className="d-flex justify-content-center align-items-center mb-5">
+    <Container className="mb-5">
       {modalContent !== null && (
         <Modal />
       )}
 
-      <Row>
-        <Col className="d-flex justify-content-evenly mt-5">
+      {filtersSection()}
+
+      <hr />
+
+      <Row className="d-flex justify-content-center align-items-center">
+        <Col className="d-flex justify-content-evenly mt-3">
           <CardWrap
             style={{
               width: '17rem',
-              minHeight: '30rem',
+              minHeight: '31rem',
+              maxHeight: '31rem',
               cursor: 'pointer',
             }}
             onClick={() => {
@@ -49,12 +87,12 @@ const ShoppingLists = ({
           </CardWrap>
         </Col>
 
-        {shoppingLists.sort((a, b) => a.name.localeCompare(b.name))
+        {displayShoppingLists()
           .map(
             (shoppingList) => (
               <Col
                 key={shoppingList.id}
-                className="d-flex justify-content-evenly mt-5"
+                className="d-flex justify-content-evenly mt-3"
               >
                 <ShoppingListCard
                   shoppingList={shoppingList}

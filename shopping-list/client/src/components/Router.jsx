@@ -31,6 +31,7 @@ const Router = () => {
         image: 'https://hips.hearstapps.com/hmg-prod/images/how-to-save-money-on-groceries-1673472736.png?resize=980:*',
         role: 'owner',
         description: 'A vegetable shopping list is a list of fresh and healthy produce items you need to buy from the grocery store or market. It typically includes various vegetables such as tomatoes, lettuce, carrots, broccoli, onions, peppers, and any other specific vegetables you plan to use in your meals. This list helps you stay organized and ensure you have all the necessary ingredients for your recipes and a balanced diet.',
+        archived: false,
         items: [],
         invitees: [],
       },
@@ -40,6 +41,7 @@ const Router = () => {
         image: 'https://cms-tc.pbskids.org/parents/_pbsKidsForParentsThreeTwoRatioMedium/EWW-tablescape-hero.jpg',
         role: 'owner',
         description: 'A birthday party shopping list is a checklist of essential items and supplies needed to throw a successful birthday celebration. It typically includes items such as decorations, balloons, cake or cupcakes, party favors, beverages, snacks, and any other specific items required to make the birthday party memorable and enjoyable.',
+        archived: false,
         items: [
           {
             id: 'b3636ec2-018c-4fe1-b6e8-a5c10286e4e2',
@@ -68,6 +70,7 @@ const Router = () => {
         role: 'invitee',
         image: 'https://cdn2.stylecraze.com/wp-content/uploads/2022/03/Beach-Themed-Party-Ideas-For-Adults.jpg',
         description: 'A beach shopping list is a checklist of must-have items for a perfect day at the beach, covering sun protection, comfort, shade, refreshments, and entertainment. Don\'t forget beach essentials like towels, swimwear, snacks, and fun beach toys!',
+        archived: false,
         items: [],
         invitees: [],
       },
@@ -77,6 +80,7 @@ const Router = () => {
         role: 'invitee',
         image: 'https://cdn.greenvelope.com/blog/wp-content/uploads/group-of-friends-in-a-party.jpg',
         description: 'A summer party shopping list is a concise inventory of items needed to host a fantastic summer gathering. It includes everything from food and drinks to decorations and entertainment, ensuring you have all you need for a memorable summer celebration.',
+        archived: false,
         items: [],
         invitees: [],
       },

@@ -29,6 +29,7 @@ export const shoppingListType = () => PropTypes.shape({
   image: PropTypes.string.isRequired,
   role: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  archived: PropTypes.bool.isRequired,
   invitees: PropTypes.arrayOf(shoppingListInviteeType().isRequired).isRequired,
   items: PropTypes.arrayOf(shoppingListItemType().isRequired).isRequired,
 });
