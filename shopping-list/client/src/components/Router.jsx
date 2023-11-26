@@ -67,7 +67,7 @@ const Router = () => {
         name: 'Beach camping',
         role: 'invitee',
         image: 'https://cdn2.stylecraze.com/wp-content/uploads/2022/03/Beach-Themed-Party-Ideas-For-Adults.jpg',
-        description: "A beach shopping list is a checklist of must-have items for a perfect day at the beach, covering sun protection, comfort, shade, refreshments, and entertainment. Don't forget beach essentials like towels, swimwear, snacks, and fun beach toys!",
+        description: 'A beach shopping list is a checklist of must-have items for a perfect day at the beach, covering sun protection, comfort, shade, refreshments, and entertainment. Don\'t forget beach essentials like towels, swimwear, snacks, and fun beach toys!',
         items: [],
         invitees: [],
       },
@@ -115,7 +115,10 @@ const Router = () => {
       <NavigationBar />
       <Routes>
         <Route element={<Outlet />}>
-          {routes.map(({ path, element }) => (
+          {routes.map(({
+            path,
+            element,
+          }) => (
             <Route key={path} path={path} element={element} />
           ))}
         </Route>

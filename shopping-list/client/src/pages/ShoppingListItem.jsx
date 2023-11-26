@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormControl, FormGroup, InputGroup } from 'react-bootstrap';
 import InputGroupText from 'react-bootstrap/InputGroupText';
 import Button from 'react-bootstrap/Button';
+import { shoppingListItemType } from '../types/types';
 
 export const ShoppingListItem = ({
   shoppingListItem, shoppingListItemChange, shoppingListItemRemove,
@@ -59,14 +60,7 @@ export const ShoppingListItem = ({
 };
 
 ShoppingListItem.propTypes = {
-  shoppingListItem: PropTypes.shape(
-    {
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      quantity: PropTypes.string.isRequired,
-      resolved: PropTypes.bool.isRequired,
-    },
-  ).isRequired,
+  shoppingListItem: shoppingListItemType().isRequired,
   shoppingListItemChange: PropTypes.func.isRequired,
   shoppingListItemRemove: PropTypes.func.isRequired,
 };

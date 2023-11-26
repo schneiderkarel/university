@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 const ModalContext = createContext();
 
 export const ModalProvider = ({ children }) => {
-  const [show, setShow] = useState(false);
+  const [content, setContent] = useState(null);
 
   const value = useMemo(
-    () => ([show, setShow]),
-    [show, setShow],
+    () => ([content, setContent]),
+    [content, setContent],
   );
 
   return (

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormGroup, InputGroup } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import InputGroupText from 'react-bootstrap/InputGroupText';
+import { shoppingListInviteeType } from '../types/types';
 
 export const ShoppingListInvitee = ({ shoppingListInvitee, removeShoppingListInvitee }) => {
   const removeInviteeButtonClick = () => removeShoppingListInvitee(shoppingListInvitee.id);
@@ -23,12 +24,7 @@ export const ShoppingListInvitee = ({ shoppingListInvitee, removeShoppingListInv
 };
 
 ShoppingListInvitee.propTypes = {
-  shoppingListInvitee: PropTypes.shape(
-    {
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-    },
-  ).isRequired,
+  shoppingListInvitee: shoppingListInviteeType().isRequired,
   removeShoppingListInvitee: PropTypes.func.isRequired,
 };
 
