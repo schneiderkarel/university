@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormControl, FormGroup, FormLabel } from 'react-bootstrap';
 import { ShoppingListInvitees } from './ShoppingListInvitees';
 import { ShoppingListItems } from './ShoppingListItems';
+import { shoppingListType, userType } from '../types/types';
 
 export const ShoppingListCreateForm = ({ users, shoppingList, setShoppingList }) => {
   const setName = (value) => {
@@ -74,39 +75,8 @@ export const ShoppingListCreateForm = ({ users, shoppingList, setShoppingList })
 };
 
 ShoppingListCreateForm.propTypes = {
-  users: PropTypes.arrayOf(
-    PropTypes.shape(
-      {
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-      },
-    ).isRequired,
-  ).isRequired,
-  shoppingList: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    role: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    invitees: PropTypes.arrayOf(
-      PropTypes.shape(
-        {
-          id: PropTypes.string.isRequired,
-          name: PropTypes.string.isRequired,
-        },
-      ),
-    ).isRequired,
-    items: PropTypes.arrayOf(
-      PropTypes.shape(
-        {
-          id: PropTypes.string.isRequired,
-          name: PropTypes.string.isRequired,
-          quantity: PropTypes.string.isRequired,
-          resolved: PropTypes.bool.isRequired,
-        },
-      ),
-    ).isRequired,
-  }).isRequired,
+  users: PropTypes.arrayOf(userType().isRequired).isRequired,
+  shoppingList: shoppingListType().isRequired,
   setShoppingList: PropTypes.func.isRequired,
 };
 

@@ -7,8 +7,13 @@ import Button from 'react-bootstrap/Button';
 import { ShoppingListForm } from './ShoppingListForm';
 import { ShoppingListItems } from './ShoppingListItems';
 import { isUserShoppingListOwner } from './helper';
+import { shoppingListType, userType } from '../types/types';
 
-const ShoppingListDetail = ({ users, shoppingLists, setShoppingLists }) => {
+const ShoppingListDetail = ({
+  users,
+  shoppingLists,
+  setShoppingLists,
+}) => {
   const { id } = useParams();
 
   const [shoppingList, setShoppingList] = useState(shoppingLists.find((s) => id === s.id));
@@ -37,6 +42,7 @@ const ShoppingListDetail = ({ users, shoppingLists, setShoppingLists }) => {
             setShoppingList={setShoppingList}
           />
         </div>
+
         <Button
           variant="primary"
           onClick={saveButtonClick}
@@ -48,6 +54,7 @@ const ShoppingListDetail = ({ users, shoppingLists, setShoppingLists }) => {
             variant="danger"
             href="/"
             onClick={leaveButtonClick}
+            style={{ marginLeft: '1rem' }}
           >
             Leave
           </Button>
@@ -58,41 +65,8 @@ const ShoppingListDetail = ({ users, shoppingLists, setShoppingLists }) => {
 };
 
 ShoppingListDetail.propTypes = {
-  users: PropTypes.arrayOf(
-    PropTypes.shape(
-      {
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-      },
-    ).isRequired,
-  ).isRequired,
-  shoppingLists: PropTypes.arrayOf(
-    PropTypes.shape(
-      {
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        role: PropTypes.string.isRequired,
-        invitees: PropTypes.arrayOf(
-          PropTypes.shape(
-            {
-              id: PropTypes.string.isRequired,
-              name: PropTypes.string.isRequired,
-            },
-          ),
-        ).isRequired,
-        items: PropTypes.arrayOf(
-          PropTypes.shape(
-            {
-              id: PropTypes.string.isRequired,
-              name: PropTypes.string.isRequired,
-              quantity: PropTypes.string.isRequired,
-              resolved: PropTypes.bool.isRequired,
-            },
-          ),
-        ).isRequired,
-      },
-    ),
-  ).isRequired,
+  users: PropTypes.arrayOf(userType().isRequired).isRequired,
+  shoppingLists: PropTypes.arrayOf(shoppingListType()).isRequired,
   setShoppingLists: PropTypes.func.isRequired,
 };
 

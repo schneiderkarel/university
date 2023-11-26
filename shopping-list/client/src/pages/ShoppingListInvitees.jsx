@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormGroup, FormSelect, InputGroup } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { ShoppingListInvitee } from './ShoppingListInvitee';
+import { shoppingListInviteeType, userType } from '../types/types';
 
 export const ShoppingListInvitees = ({
   users,
@@ -89,22 +90,8 @@ export const ShoppingListInvitees = ({
 };
 
 ShoppingListInvitees.propTypes = {
-  users: PropTypes.arrayOf(
-    PropTypes.shape(
-      {
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-      },
-    ).isRequired,
-  ).isRequired,
-  shoppingListInvitees: PropTypes.arrayOf(
-    PropTypes.shape(
-      {
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-      },
-    ),
-  ).isRequired,
+  users: PropTypes.arrayOf(userType().isRequired).isRequired,
+  shoppingListInvitees: PropTypes.arrayOf(shoppingListInviteeType().isRequired).isRequired,
   setShoppingList: PropTypes.func.isRequired,
 };
 

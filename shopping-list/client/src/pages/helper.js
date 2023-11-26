@@ -9,6 +9,7 @@ export const emptyShoppingList = () => (
     image: '',
     role: 'owner',
     description: '',
+    archived: false,
     invitees: [],
     items: [],
   }

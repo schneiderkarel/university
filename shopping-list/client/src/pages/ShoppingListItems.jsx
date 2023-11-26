@@ -4,6 +4,7 @@ import { FormCheck, FormGroup } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { v4 as uuidv4 } from 'uuid';
 import { ShoppingListItem } from './ShoppingListItem';
+import { shoppingListItemType } from '../types/types';
 
 export const ShoppingListItems = ({ shoppingListItems, setShoppingList }) => {
   const [items, setItems] = useState(shoppingListItems);
@@ -91,12 +92,7 @@ export const ShoppingListItems = ({ shoppingListItems, setShoppingList }) => {
 };
 
 ShoppingListItems.propTypes = {
-  shoppingListItems: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    quantity: PropTypes.string.isRequired,
-    resolved: PropTypes.bool.isRequired,
-  })).isRequired,
+  shoppingListItems: PropTypes.arrayOf(shoppingListItemType().isRequired).isRequired,
   setShoppingList: PropTypes.func.isRequired,
 };
 

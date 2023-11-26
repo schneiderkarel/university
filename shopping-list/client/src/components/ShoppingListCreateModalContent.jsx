@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import {
-  Modal as BootstrapModal,
   ModalBody,
   ModalFooter,
   ModalHeader,
@@ -9,18 +8,19 @@ import {
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import ModalContext from '../context/modal.context';
 import { ShoppingListCreateForm } from '../pages/ShoppingListCreateForm';
 import { emptyShoppingList } from '../pages/helper';
+import { shoppingListType, userType } from '../types/types';
+import ModalContext from '../context/modal.context';
 
-const ShoppingListCreateModal = ({
+const ShoppingListCreateModalContent = ({
   users,
   shoppingLists,
   setShoppingLists,
 }) => {
   const navigate = useNavigate();
 
-  const [show, setShow] = useContext(ModalContext);
+  const [, setContent] = useContext(ModalContext);
 
   const [shoppingList, setShoppingList] = useState(emptyShoppingList());
 
@@ -28,6 +28,7 @@ const ShoppingListCreateModal = ({
     const restShoppingLists = shoppingLists.filter((item) => item.id !== shoppingList.id);
     setShoppingLists([...restShoppingLists, shoppingList]);
     navigate(`/shopping-lists/${shoppingList.id}`);
+    setContent(null);
   };
 
   const closeButtonClick = () => {
@@ -36,18 +37,12 @@ const ShoppingListCreateModal = ({
   };
 
   const handleClose = () => {
-    setShow(false);
+    setContent(null);
     closeButtonClick();
   };
 
   return (
-    <BootstrapModal
-      dialogClassName="expanded-modal-dialog"
-      show={show}
-      onHide={handleClose}
-      backdrop="static"
-      keyboard={false}
-    >
+    <div>
       <ModalHeader closeButton>
         <ModalTitle>New shopping list</ModalTitle>
       </ModalHeader>
@@ -64,47 +59,14 @@ const ShoppingListCreateModal = ({
         </Button>
         <Button variant="primary" onClick={createButtonClick}>Create</Button>
       </ModalFooter>
-    </BootstrapModal>
+    </div>
   );
 };
 
-ShoppingListCreateModal.propTypes = {
-  users: PropTypes.arrayOf(
-    PropTypes.shape(
-      {
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-      },
-    ).isRequired,
-  ).isRequired,
-  shoppingLists: PropTypes.arrayOf(
-    PropTypes.shape(
-      {
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        role: PropTypes.string.isRequired,
-        invitees: PropTypes.arrayOf(
-          PropTypes.shape(
-            {
-              id: PropTypes.string.isRequired,
-              name: PropTypes.string.isRequired,
-            },
-          ),
-        ).isRequired,
-        items: PropTypes.arrayOf(
-          PropTypes.shape(
-            {
-              id: PropTypes.string.isRequired,
-              name: PropTypes.string.isRequired,
-              quantity: PropTypes.string.isRequired,
-              resolved: PropTypes.bool.isRequired,
-            },
-          ),
-        ).isRequired,
-      },
-    ),
-  ).isRequired,
+ShoppingListCreateModalContent.propTypes = {
+  users: PropTypes.arrayOf(userType().isRequired).isRequired,
+  shoppingLists: PropTypes.arrayOf(shoppingListType().isRequired).isRequired,
   setShoppingLists: PropTypes.func.isRequired,
 };
 
-export default ShoppingListCreateModal;
+export default ShoppingListCreateModalContent;
