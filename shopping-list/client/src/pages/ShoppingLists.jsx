@@ -59,6 +59,8 @@ const ShoppingLists = ({
 
       {filtersSection()}
 
+      <hr />
+
       <Row className="d-flex justify-content-center align-items-center">
         <Col className="d-flex justify-content-evenly mt-3">
           <CardWrap
