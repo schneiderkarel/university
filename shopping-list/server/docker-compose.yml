@@ -1,0 +1,23 @@
+version: '3.7'
+
+networks:
+  default:
+    external: true
+    name: "shopperio"
+
+services:
+  mongo:
+    image: mongo:6-jammy
+    container_name: "mongo"
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      MONGO_INITDB_ROOT_DATABASE: "shopperio"
+    ports:
+      - '27017:27017'
+    volumes:
+      - dbdata6:/data/db
+
+volumes:
+  dbdata6:
