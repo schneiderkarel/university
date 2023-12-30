@@ -1,4 +1,5 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
+import UserNotFoundError from '../../model/error/userNotFoundError.js';
 
 class Storage {
   database;
@@ -30,6 +31,22 @@ class Storage {
       id: createdUser._id.toHexString(),
       name: createdUser.name,
       shoppingLists: createdUser.shoppingLists,
+    };
+  }
+
+  async user(id) {
+    const usersCollection = this.database.collection('users');
+
+    const user = await usersCollection.findOne({ _id: new ObjectId(id) });
+
+    if (!user) {
+      throw new UserNotFoundError()
+    }
+
+    return {
+      id: user._id.toHexString(),
+      name: user.name,
+      shoppingLists: user.shoppingLists,
     };
   }
 }

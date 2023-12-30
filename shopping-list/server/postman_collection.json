@@ -8,7 +8,81 @@
 	"item": [
 		{
 			"name": "API",
-			"item": []
+			"item": [
+				{
+					"name": "/users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "CALLER_ID",
+								"value": "{{CALLER_ID}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_SERVER_HOST}}/users",
+							"host": [
+								"{{API_SERVER_HOST}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/:id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "CALLER_ID",
+								"value": "{{CALLER_ID}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_SERVER_HOST}}/users/{{USER_ID}}",
+							"host": [
+								"{{API_SERVER_HOST}}"
+							],
+							"path": [
+								"users",
+								"{{USER_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Šmoula\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_SERVER_HOST}}/users",
+							"host": [
+								"{{API_SERVER_HOST}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Monitoring",
@@ -34,6 +108,26 @@
 			]
 		}
 	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
 			"key": "API_SERVER_HOST",
@@ -46,8 +140,13 @@
 			"type": "string"
 		},
 		{
+			"key": "CALLER_ID",
+			"value": "658ff9bcd1aeabd062ef4a70",
+			"type": "string"
+		},
+		{
 			"key": "USER_ID",
-			"value": "cef2ef25-07c1-4b96-a497-4afdd1783d21",
+			"value": "658ff9bcd1aeabd062ef4a70",
 			"type": "string"
 		}
 	]

@@ -2,7 +2,7 @@ import Router from 'koa-joi-router';
 import Joi from 'joi';
 import Controller from '../../controller/controller.js';
 import Storage from '../../../service/storage/storage.js';
-import { userSchema, usersSchema } from './schema/schema.js';
+import { idSchema, userSchema, usersSchema } from './schema/schema.js';
 
 const apiRouter = Router();
 
@@ -44,6 +44,26 @@ apiRouter.route({
   },
   handler: async (ctx) => {
     await controller.createUser(ctx);
+  },
+});
+
+apiRouter.route({
+  method: 'get',
+  path: '/users/:id',
+  validate: {
+    params: {
+      id: idSchema.required()
+    },
+    output: {
+      200: {
+        body: Joi.object({
+          data: userSchema.required(),
+        }),
+      },
+    },
+  },
+  handler: async (ctx) => {
+    await controller.user(ctx);
   },
 });
 

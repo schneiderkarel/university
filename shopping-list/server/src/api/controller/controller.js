@@ -23,6 +23,14 @@ class Controller {
 
     ctx.body = { data: createdUser };
   }
+
+  async user(ctx) {
+    const { id } = ctx.params;
+
+    const user = await this.storage.user(id);
+
+    ctx.body = { data: user };
+  }
 }
 
 export default Controller;
