@@ -2,7 +2,13 @@ import Router from 'koa-joi-router';
 import Joi from 'joi';
 import Controller from '../../controller/controller.js';
 import Storage from '../../../service/storage/storage.js';
-import { idSchema, userSchema, usersSchema } from './schema/schema.js';
+import {
+  idSchema,
+  userSchema,
+  usersSchema,
+  shoppingListSchemaIn,
+  shoppingListSchemaOut,
+} from './schema/schema.js';
 
 const apiRouter = Router();
 
@@ -13,6 +19,11 @@ apiRouter.route({
   method: 'get',
   path: '/users',
   validate: {
+    header: Joi.object({
+      caller: idSchema.required(),
+    }).options({
+      allowUnknown: true,
+    }).required(),
     output: {
       200: {
         body: Joi.object({
@@ -52,8 +63,13 @@ apiRouter.route({
   path: '/users/:id',
   validate: {
     params: {
-      id: idSchema.required()
+      id: idSchema.required(),
     },
+    header: Joi.object({
+      caller: idSchema.required(),
+    }).options({
+      allowUnknown: true,
+    }).required(),
     output: {
       200: {
         body: Joi.object({
@@ -64,6 +80,30 @@ apiRouter.route({
   },
   handler: async (ctx) => {
     await controller.user(ctx);
+  },
+});
+
+apiRouter.route({
+  method: 'post',
+  path: '/shopping-lists',
+  validate: {
+    header: Joi.object({
+      caller: idSchema.required(),
+    }).options({
+      allowUnknown: true,
+    }).required(),
+    type: 'json',
+    body: shoppingListSchemaIn.required(),
+    output: {
+      200: {
+        body: Joi.object({
+          data: shoppingListSchemaOut.required(),
+        }),
+      },
+    },
+  },
+  handler: async (ctx) => {
+    await controller.createShoppingList(ctx);
   },
 });
 

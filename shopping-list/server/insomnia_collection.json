@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-12-30T13:08:32.332Z",
+  "__export_date": "2023-12-30T15:26:16.311Z",
   "__export_source": "insomnia.desktop.app:v8.5.1",
   "resources": [
     {
@@ -122,7 +122,7 @@
     {
       "_id": "req_027b9a4c6bef4b399e3d99381ec2a496",
       "parentId": "wrk_babd902927bc4072bebfac2eb08e9e58",
-      "modified": 1703941685172,
+      "modified": 1703949853888,
       "created": 1703939717796,
       "url": "http://127.0.0.1:8080/shopping-lists",
       "name": "/shopping-lists",
@@ -130,7 +130,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\t\"owner_id\": \"65900b6e3d92567132eb9241\",\n    \"name\": \"Shopping list #1\",\n    \"image\": \"http://image.com/\",\n    \"description\": \"My special shopping list.\",   \n    \"invitees\": [\n        {\n            \"id\": \"659009c053399dbea1ac088b\"\n        }\n    ],\n    \"items\": [\n        {\n            \"name\": \"Banana\",\n            \"quantity\": \"10x\",\n            \"resolved\": \"false\"\n        },\n        {\n            \"name\": \"Water\",\n            \"quantity\": \"500ml\",\n            \"resolved\": \"true\"\n        }\n    ]\n}\n"
+        "text": "{\n    \"name\": \"Shopping list #1\",\n    \"image\": \"https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w600/2023/10/free-images.jpg\",\n    \"description\": \"My special shopping list.\",\n    \"archived\": false,\n    \"invitees\": [\n        {\n            \"id\": \"65903500d3137f17b974a2c5\"\n        },\n        {\n            \"id\": \"6590359ab2d190e19a12177c\"\n        }\n    ],\n    \"items\": [\n        {\n            \"name\": \"Banana\",\n            \"quantity\": \"10x\",\n            \"resolved\": \"false\"\n        }\n    ]\n}"
       },
       "parameters": [],
       "headers": [
@@ -200,7 +200,7 @@
     {
       "_id": "req_86ea2ec0f89045aea34a69b23f141207",
       "parentId": "wrk_babd902927bc4072bebfac2eb08e9e58",
-      "modified": 1703941679755,
+      "modified": 1703949959665,
       "created": 1703939520450,
       "url": "http://127.0.0.1:8080/shopping-lists/65900de15354f96379c7f6c4",
       "name": "/shopping-lists/{id}",
@@ -208,7 +208,7 @@
       "method": "PATCH",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n    \"name\": \"Shopping list #1\",\n    \"image\": \"http://image.com/\",\n    \"description\": \"My special shopping list.\",   \n    \"invitees\": [\n        {\n            \"id\": \"659009c053399dbea1ac088b\"\n        }\n    ],\n    \"items\": [\n        {\n            \"name\": \"Banana\",\n            \"quantity\": \"10x\",\n            \"resolved\": \"false\"\n        },\n        {\n            \"name\": \"Water\",\n            \"quantity\": \"500ml\",\n            \"resolved\": \"true\"\n        }\n    ]\n}\n"
+        "text": "{\n    \"name\": \"Shopping list #1\",\n    \"image\": \"https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w600/2023/10/free-images.jpg\",\n    \"description\": \"My special shopping list.\",\n    \"archived\": false,\n    \"invitees\": [\n        {\n            \"id\": \"65903500d3137f17b974a2c5\"\n        },\n        {\n            \"id\": \"6590359ab2d190e19a12177c\"\n        }\n    ],\n    \"items\": [\n        {\n            \"name\": \"Banana\",\n            \"quantity\": \"10x\",\n            \"resolved\": \"false\"\n        }\n    ]\n}"
       },
       "parameters": [],
       "headers": [

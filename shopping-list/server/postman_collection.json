@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "bed870c0-a4a5-42ca-a34d-bf6bfc06ce4e",
+		"_postman_id": "aa11633a-4611-4669-a6e4-eff92084e146",
 		"name": "Shopper.io",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "14425277"
@@ -15,8 +15,8 @@
 						"method": "GET",
 						"header": [
 							{
-								"key": "CALLER_ID",
-								"value": "{{CALLER_ID}}",
+								"key": "CALLER",
+								"value": "{{CALLER}}",
 								"type": "text"
 							}
 						],
@@ -38,8 +38,8 @@
 						"method": "GET",
 						"header": [
 							{
-								"key": "CALLER_ID",
-								"value": "{{CALLER_ID}}",
+								"key": "CALLER",
+								"value": "{{CALLER}}",
 								"type": "text"
 							}
 						],
@@ -63,7 +63,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Šmoula\"\n}",
+							"raw": "{\n    \"name\": \"John Doe\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -77,6 +77,38 @@
 							],
 							"path": [
 								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/shopping-lists",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "CALLER",
+								"value": "{{CALLER}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Shopping list #1\",\n    \"image\": \"https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w600/2023/10/free-images.jpg\",\n    \"description\": \"My special shopping list.\",\n    \"archived\": false,\n    \"invitees\": [\n        {\n            \"id\": \"65903500d3137f17b974a2c5\"\n        },\n        {\n            \"id\": \"6590359ab2d190e19a12177c\"\n        }\n    ],\n    \"items\": [\n        {\n            \"name\": \"Banana\",\n            \"quantity\": \"10x\",\n            \"resolved\": \"false\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_SERVER_HOST}}/shopping-lists",
+							"host": [
+								"{{API_SERVER_HOST}}"
+							],
+							"path": [
+								"shopping-lists"
 							]
 						}
 					},
@@ -140,13 +172,13 @@
 			"type": "string"
 		},
 		{
-			"key": "CALLER_ID",
-			"value": "658ff9bcd1aeabd062ef4a70",
+			"key": "CALLER",
+			"value": "65901a8988773c3bf3590bec",
 			"type": "string"
 		},
 		{
 			"key": "USER_ID",
-			"value": "658ff9bcd1aeabd062ef4a70",
+			"value": "65901a8988773c3bf3590bec",
 			"type": "string"
 		}
 	]
