@@ -1,0 +1,301 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2023-12-30T13:08:32.332Z",
+  "__export_source": "insomnia.desktop.app:v8.5.1",
+  "resources": [
+    {
+      "_id": "req_69e411d1111a4a5eb80c820bd7e86c90",
+      "parentId": "wrk_babd902927bc4072bebfac2eb08e9e58",
+      "modified": 1703941692235,
+      "created": 1703938225205,
+      "url": "http://127.0.0.1:8080/users",
+      "name": "/users",
+      "description": "Endpoint to retrieve all of the users.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/8.5.1",
+          "id": "pair_7033b87eebc445ce8819eb6073bf6eb3"
+        },
+        {
+          "id": "pair_9eb5906c472c439fa9ce9bf657705d5e",
+          "name": "CALLER_ID",
+          "value": "6590122fd78341fd2e189ff9",
+          "description": "User id of the caller used for validations."
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1703938225205,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "wrk_babd902927bc4072bebfac2eb08e9e58",
+      "parentId": null,
+      "modified": 1703938216352,
+      "created": 1703938216352,
+      "name": "Shopper.io",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_74874c22379d4c17bb808fe7da0b7bc9",
+      "parentId": "wrk_babd902927bc4072bebfac2eb08e9e58",
+      "modified": 1703941563643,
+      "created": 1703938299790,
+      "url": "http://127.0.0.1:8080/users",
+      "name": "/users",
+      "description": "Endpoint to create a user.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"name\": \"John Doe\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/8.5.1"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1703938225192.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_0eacbfb6813a44a8aab3d09b42d15546",
+      "parentId": "wrk_babd902927bc4072bebfac2eb08e9e58",
+      "modified": 1703941688810,
+      "created": 1703941498550,
+      "url": "http://127.0.0.1:8080/users/6590122fd78341fd2e189ff9",
+      "name": "/users/{id}",
+      "description": "Endpoint to retrieve a user.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/8.5.1",
+          "id": "pair_7033b87eebc445ce8819eb6073bf6eb3"
+        },
+        {
+          "id": "pair_9429e4dce71642e0a6610e005dea0734",
+          "name": "CALLER_ID",
+          "value": "6590122fd78341fd2e189ff9",
+          "description": "User id of the caller used for validations."
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1703938225180,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_027b9a4c6bef4b399e3d99381ec2a496",
+      "parentId": "wrk_babd902927bc4072bebfac2eb08e9e58",
+      "modified": 1703941685172,
+      "created": 1703939717796,
+      "url": "http://127.0.0.1:8080/shopping-lists",
+      "name": "/shopping-lists",
+      "description": "Endpoint to create a shopping list.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\t\"owner_id\": \"65900b6e3d92567132eb9241\",\n    \"name\": \"Shopping list #1\",\n    \"image\": \"http://image.com/\",\n    \"description\": \"My special shopping list.\",   \n    \"invitees\": [\n        {\n            \"id\": \"659009c053399dbea1ac088b\"\n        }\n    ],\n    \"items\": [\n        {\n            \"name\": \"Banana\",\n            \"quantity\": \"10x\",\n            \"resolved\": \"false\"\n        },\n        {\n            \"name\": \"Water\",\n            \"quantity\": \"500ml\",\n            \"resolved\": \"true\"\n        }\n    ]\n}\n"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_0cd77db8310243459ece1ef2c8cfd10a"
+        },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/8.5.1",
+          "id": "pair_2d11403f5da14818b7b9b6f37d4d6169"
+        },
+        {
+          "id": "pair_5b51ff7964684ab6aa5b29d2efb828a3",
+          "name": "CALLER_ID",
+          "value": "6590122fd78341fd2e189ff9",
+          "description": "User id of the caller used for validations."
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1703938225080,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_32712c84585045f0b7b11d967c4c4c99",
+      "parentId": "wrk_babd902927bc4072bebfac2eb08e9e58",
+      "modified": 1703941682635,
+      "created": 1703939762081,
+      "url": "http://127.0.0.1:8080/shopping-lists/65900de15354f96379c7f6c4",
+      "name": "/shopping-lists/{id}",
+      "description": "Endpoint to retrieve a shopping list.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/8.5.1",
+          "id": "pair_084d8921015b4e66acda497ffdf0ffc3"
+        },
+        {
+          "id": "pair_03ee2d8375a7478fbb3f91df60279664",
+          "name": "CALLER_ID",
+          "value": "6590122fd78341fd2e189ff9",
+          "description": "User id of the caller used for validations."
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1703938225067.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_86ea2ec0f89045aea34a69b23f141207",
+      "parentId": "wrk_babd902927bc4072bebfac2eb08e9e58",
+      "modified": 1703941679755,
+      "created": 1703939520450,
+      "url": "http://127.0.0.1:8080/shopping-lists/65900de15354f96379c7f6c4",
+      "name": "/shopping-lists/{id}",
+      "description": "Endpoint to update a shopping list.",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n    \"name\": \"Shopping list #1\",\n    \"image\": \"http://image.com/\",\n    \"description\": \"My special shopping list.\",   \n    \"invitees\": [\n        {\n            \"id\": \"659009c053399dbea1ac088b\"\n        }\n    ],\n    \"items\": [\n        {\n            \"name\": \"Banana\",\n            \"quantity\": \"10x\",\n            \"resolved\": \"false\"\n        },\n        {\n            \"name\": \"Water\",\n            \"quantity\": \"500ml\",\n            \"resolved\": \"true\"\n        }\n    ]\n}\n"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_17231d5be012403b9b4d340013c69b2d"
+        },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/8.5.1",
+          "id": "pair_3e08f0e4cdff407897d416a7bbdcbf44"
+        },
+        {
+          "id": "pair_44e89dd20e524e1abd8504a1af6bacdc",
+          "name": "CALLER_ID",
+          "value": "6590122fd78341fd2e189ff9",
+          "description": "User id of the caller used for validations."
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1703938225055,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_dcfc737cce49430da960863ae2049fb9",
+      "parentId": "wrk_babd902927bc4072bebfac2eb08e9e58",
+      "modified": 1703941673075,
+      "created": 1703939601670,
+      "url": "http://127.0.0.1:8080/shopping-lists/65900de15354f96379c7f6c4",
+      "name": "/shopping-lists/{id}",
+      "description": "Endpoint to delete a shopping list.",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/8.5.1",
+          "id": "pair_9f46c5c7cd3744ce89fe6bb754888ae6"
+        },
+        {
+          "id": "pair_5fe8b3cd949644d5bca429ee351d772c",
+          "name": "CALLER_ID",
+          "value": "6590122fd78341fd2e189ff9",
+          "description": "User id of the caller used for validations."
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1703938225005,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "env_a4513dce90fbf2846ea68d098076b0bd4354b6a5",
+      "parentId": "wrk_babd902927bc4072bebfac2eb08e9e58",
+      "modified": 1703938216354,
+      "created": 1703938216354,
+      "name": "Base Environment",
+      "data": {},
+      "dataPropertyOrder": null,
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1703938216354,
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_a4513dce90fbf2846ea68d098076b0bd4354b6a5",
+      "parentId": "wrk_babd902927bc4072bebfac2eb08e9e58",
+      "modified": 1703938216355,
+      "created": 1703938216355,
+      "name": "Default Jar",
+      "cookies": [],
+      "_type": "cookie_jar"
+    }
+  ]
+}
