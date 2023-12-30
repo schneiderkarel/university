@@ -107,4 +107,31 @@ apiRouter.route({
   },
 });
 
+apiRouter.route({
+  method: 'patch',
+  path: '/shopping-lists/:id',
+  validate: {
+    params: {
+      id: idSchema.required(),
+    },
+    header: Joi.object({
+      caller: idSchema.required(),
+    }).options({
+      allowUnknown: true,
+    }).required(),
+    type: 'json',
+    body: shoppingListSchemaIn.required(),
+    output: {
+      200: {
+        body: Joi.object({
+          data: shoppingListSchemaOut.required(),
+        }),
+      },
+    },
+  },
+  handler: async (ctx) => {
+    await controller.updateShoppingList(ctx);
+  },
+});
+
 export default apiRouter;

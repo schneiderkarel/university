@@ -1,5 +1,6 @@
 import { MongoClient, ObjectId } from 'mongodb';
 import UserNotFoundError from '../../model/error/userNotFoundError.js';
+import { noChangesAfterUpdate } from './utils.js';
 
 class Storage {
   database;
@@ -66,7 +67,7 @@ class Storage {
       { $set: updateUser },
     );
 
-    if (!updateResult.matchedCount && !updateResult.modifiedCount) {
+    if (noChangesAfterUpdate(updateResult)) {
       throw new UserNotFoundError();
     }
 
@@ -75,7 +76,7 @@ class Storage {
     return {
       id: updatedUser._id.toHexString(),
       name: updatedUser.name,
-      shoppingLists: updatedUser.shoppingLists.map((shoppingList) => ({ id: shoppingList })),
+      shoppingLists: updatedUser.shoppingLists.map((shoppingList) => ({ id: shoppingList.toHexString() })),
     };
   }
 
@@ -130,6 +131,103 @@ class Storage {
         resolved: item.resolved,
       })),
     };
+  }
+
+  async updateShoppingList(id, shoppingList) {
+    const shoppingListsCollection = this.database.collection('shopping_lists');
+
+    const updateShoppingList = {
+      ...shoppingList,
+      _id: new ObjectId(id),
+      invitees: shoppingList.invitees.map((invitee) => (new ObjectId(invitee.id))),
+      items: shoppingList.items.map((item) => ({
+        _id: new ObjectId(),
+        name: item.name,
+        quantity: item.quantity,
+        resolved: item.resolved,
+      })),
+    };
+
+    const beforeUpdateShoppingList = await shoppingListsCollection.findOne({ _id: new ObjectId(id) });
+
+    const updateResult = await shoppingListsCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: updateShoppingList },
+    );
+
+    if (noChangesAfterUpdate(updateResult)) {
+      throw new UserNotFoundError();
+    }
+
+    const updatedShoppingList = await shoppingListsCollection.findOne({ _id: new ObjectId(id) });
+
+    const usersCollection = this.database.collection('users');
+
+    let invitees = [];
+
+    await this.handleRemovedInvitees(beforeUpdateShoppingList, updatedShoppingList)
+
+    for (let i = 0; i < updatedShoppingList.invitees.length; i += 1) {
+      const invitee = updatedShoppingList.invitees[i];
+
+      const inviteeUser = await usersCollection.findOne({ _id: invitee });
+
+      if (!inviteeUser) {
+        throw new UserNotFoundError();
+      }
+
+      invitees.push({ id: inviteeUser._id.toHexString(), name: inviteeUser.name });
+    }
+
+    return {
+      id: updatedShoppingList._id.toHexString(),
+      name: updatedShoppingList.name,
+      image: updatedShoppingList.image,
+      description: updatedShoppingList.description,
+      archived: updatedShoppingList.archived,
+      invitees: invitees.map((invitee) => ({
+        id: invitee.id,
+        name: invitee.name,
+      })),
+      items: updatedShoppingList.items.map((item) => ({
+        id: item._id.toHexString(),
+        name: item.name,
+        quantity: item.quantity,
+        resolved: item.resolved,
+      })),
+    };
+  }
+
+  async handleRemovedInvitees(beforeUpdateShoppingList, updatedShoppingList) {
+    const usersCollection = this.database.collection('users');
+
+    const removedInvitees = beforeUpdateShoppingList.invitees.filter(
+      (invitee) => !updatedShoppingList.invitees.find((i) => i.toHexString() === invitee.toHexString())
+    );
+
+    for (let i = 0; i < removedInvitees.length; i += 1) {
+      const removedInvitee = removedInvitees[i];
+
+      const removedInviteeUser = await usersCollection.findOne({ _id: removedInvitee });
+
+      if (!removedInviteeUser) {
+        throw new UserNotFoundError();
+      }
+
+      const shoppingListsMissingRemoved = removedInviteeUser.shoppingLists.filter(
+        (shoppingList) => shoppingList.toHexString() !== updatedShoppingList._id.toHexString()
+      );
+
+      await usersCollection.updateOne(
+        { _id: new ObjectId(removedInvitee) },
+        {
+          $set: {
+            ...removedInviteeUser,
+            shoppingLists: shoppingListsMissingRemoved.map((shoppingList) => shoppingList.id),
+          }
+        },
+      );
+    }
   }
 }
 
