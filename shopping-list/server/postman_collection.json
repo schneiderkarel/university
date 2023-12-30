@@ -116,9 +116,6 @@
 				},
 				{
 					"name": "/shopping-lists/:id",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -128,15 +125,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Shopping list #3\",\n    \"image\": \"https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w600/2023/10/free-images.jpg\",\n    \"description\": \"My special shopping list.\",\n    \"archived\": false,\n    \"invitees\": [\n        {\n            \"id\": \"6590359ab2d190e19a12177c\"\n        }\n    ],\n    \"items\": [\n        {\n            \"name\": \"Banana\",\n            \"quantity\": \"10x\",\n            \"resolved\": \"false\"\n        }\n    ]\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{API_SERVER_HOST}}/shopping-lists/{{SHOPPING_LIST_ID}}",
 							"host": [
