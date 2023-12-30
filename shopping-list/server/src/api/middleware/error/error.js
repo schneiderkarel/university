@@ -2,8 +2,8 @@ import Router from 'koa-joi-router';
 import BaseError from '../../../model/error/baseError.js';
 import {
   HTTP_BAD_REQUEST,
-  HTTP_NOT_FOUND,
   HTTP_METHOD_NOT_ALLOWED,
+  HTTP_NOT_FOUND,
   HTTP_UNPROCESSABLE_ENTITY,
 } from '../../../model/http/response.js';
 
@@ -11,9 +11,9 @@ export default async function errorMiddleware(context, next) {
   try {
     await next();
   } catch (error) {
-    let statusCode;
-    let title;
-    let message;
+    let statusCode = 500;
+    let title = 'INTERNAL_SERVER_ERROR';
+    let { message } = error;
 
     if (Router.Joi.isError(error)) {
       statusCode = HTTP_UNPROCESSABLE_ENTITY;
@@ -36,9 +36,6 @@ export default async function errorMiddleware(context, next) {
         message = 'The requested resource does not support requested method';
         break;
       default:
-        statusCode = 500;
-        title = 'INTERNAL_SERVER_ERROR';
-        message = 'Internal server error';
       }
     }
 
