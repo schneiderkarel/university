@@ -80,6 +80,46 @@ class Storage {
     };
   }
 
+  async shoppingList(id) {
+    const shoppingListsCollection = this.database.collection('shopping_lists');
+
+    const shoppingList = await shoppingListsCollection.findOne({ _id: new ObjectId(id) });
+
+    const usersCollection = this.database.collection('users');
+
+    const invitees = [];
+
+    for (let i = 0; i < shoppingList.invitees.length; i += 1) {
+      const invitee = shoppingList.invitees[i];
+
+      const user = await usersCollection.findOne({ _id: invitee });
+
+      if (!user) {
+        throw new UserNotFoundError();
+      }
+
+      invitees.push({ id: user._id.toHexString(), name: user.name });
+    }
+
+    return {
+      id: shoppingList._id.toHexString(),
+      name: shoppingList.name,
+      image: shoppingList.image,
+      description: shoppingList.description,
+      archived: shoppingList.archived,
+      invitees: invitees.map((invitee) => ({
+        id: invitee.id,
+        name: invitee.name,
+      })),
+      items: shoppingList.items.map((item) => ({
+        id: item._id.toHexString(),
+        name: item.name,
+        quantity: item.quantity,
+        resolved: item.resolved,
+      })),
+    };
+  }
+
   async createShoppingList(shoppingList) {
     const shoppingListsCollection = this.database.collection('shopping_lists');
 
