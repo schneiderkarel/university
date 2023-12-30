@@ -194,6 +194,31 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "/shopping-lists/:id/leave",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "CALLER",
+								"value": "{{CALLER}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_SERVER_HOST}}/shopping-lists/{{SHOPPING_LIST_ID}}/leave",
+							"host": [
+								"{{API_SERVER_HOST}}"
+							],
+							"path": [
+								"shopping-lists",
+								"{{SHOPPING_LIST_ID}}",
+								"leave"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
