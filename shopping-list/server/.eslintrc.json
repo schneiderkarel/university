@@ -31,6 +31,8 @@
           "error", {
             "allow": ["_id"]
           }
-        ]
+        ],
+        "no-await-in-loop": 0,
+        "import/prefer-default-export": 0
     }
 }
