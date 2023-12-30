@@ -108,6 +108,31 @@ apiRouter.route({
 });
 
 apiRouter.route({
+  method: 'get',
+  path: '/shopping-lists/:id',
+  validate: {
+    params: {
+      id: idSchema.required(),
+    },
+    header: Joi.object({
+      caller: idSchema.required(),
+    }).options({
+      allowUnknown: true,
+    }).required(),
+    output: {
+      200: {
+        body: Joi.object({
+          data: shoppingListSchemaOut.required(),
+        }),
+      },
+    },
+  },
+  handler: async (ctx) => {
+    await controller.shoppingList(ctx);
+  },
+});
+
+apiRouter.route({
   method: 'patch',
   path: '/shopping-lists/:id',
   validate: {

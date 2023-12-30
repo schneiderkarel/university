@@ -34,6 +34,29 @@ class Controller {
     ctx.body = { data: createdUser };
   }
 
+  async shoppingList(ctx) {
+    const { params, request } = ctx;
+
+    const shoppingListId = params.id;
+
+    const { caller } = request.header;
+
+    const user = await this.storage.user(caller);
+
+    if (!userHasShoppingList(user, shoppingListId)) {
+      throw Error('User does not have this shopping list');
+    }
+
+    const shoppingList = await this.storage.shoppingList(shoppingListId);
+
+    ctx.body = {
+      data: {
+        ...shoppingList,
+        role: defineShoppingListRole(user.id, shoppingList.invitees),
+      },
+    };
+  }
+
   async createShoppingList(ctx) {
     const { request } = ctx;
 
