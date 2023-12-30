@@ -182,4 +182,27 @@ apiRouter.route({
   },
 });
 
+apiRouter.route({
+  method: 'delete',
+  path: '/shopping-lists/:id/leave',
+  validate: {
+    params: {
+      id: idSchema.required(),
+    },
+    header: Joi.object({
+      caller: idSchema.required(),
+    }).options({
+      allowUnknown: true,
+    }).required(),
+    output: {
+      204: {
+        body: Joi.string().allow('').empty().required(),
+      },
+    },
+  },
+  handler: async (ctx) => {
+    await controller.leaveShoppingList(ctx);
+  },
+});
+
 export default apiRouter;

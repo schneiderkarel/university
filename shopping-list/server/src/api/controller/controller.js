@@ -152,6 +152,35 @@ class Controller {
     ctx.status = 204;
   }
 
+  async leaveShoppingList(ctx) {
+    const { params, request } = ctx;
+
+    const shoppingListId = params.id;
+
+    const { caller } = request.header;
+
+    const user = await this.storage.user(caller);
+
+    if (!userHasShoppingList(user, shoppingListId)) {
+      throw Error('User does not have this shopping list');
+    }
+
+    const shoppingList = await this.storage.shoppingList(shoppingListId);
+
+    if (defineShoppingListRole(user.id, shoppingList.invitees) === 'owner') {
+      throw Error('User is owner of this shopping list');
+    }
+
+    user.shoppingLists = user.shoppingLists.filter(
+      (sl) => sl.id !== shoppingListId,
+    );
+
+    await this.storage.updateUser(user.id, user);
+
+    ctx.body = '';
+    ctx.status = 204;
+  }
+
   async updateInvitees(shoppingList) {
     for (let i = 0; i < shoppingList.invitees.length; i += 1) {
       const invitee = shoppingList.invitees[i];
