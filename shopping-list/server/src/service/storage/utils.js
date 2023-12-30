@@ -1,1 +1,1 @@
-export const noChangesAfterUpdate = (result) => !result.matchedCount && !result.modifiedCount
+export const noChangesAfterUpdate = (result) => !result.matchedCount && !result.modifiedCount;

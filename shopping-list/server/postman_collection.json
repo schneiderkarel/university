@@ -170,6 +170,30 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "/shopping-lists/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "CALLER",
+								"value": "{{CALLER}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_SERVER_HOST}}/shopping-lists/{{SHOPPING_LIST_ID}}",
+							"host": [
+								"{{API_SERVER_HOST}}"
+							],
+							"path": [
+								"shopping-lists",
+								"{{SHOPPING_LIST_ID}}"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

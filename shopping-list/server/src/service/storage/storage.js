@@ -76,7 +76,9 @@ class Storage {
     return {
       id: updatedUser._id.toHexString(),
       name: updatedUser.name,
-      shoppingLists: updatedUser.shoppingLists.map((shoppingList) => ({ id: shoppingList.toHexString() })),
+      shoppingLists: updatedUser.shoppingLists.map(
+        (shoppingList) => ({ id: shoppingList.toHexString() }),
+      ),
     };
   }
 
@@ -188,7 +190,9 @@ class Storage {
       })),
     };
 
-    const beforeUpdateShoppingList = await shoppingListsCollection.findOne({ _id: new ObjectId(id) });
+    const beforeUpdateShoppingList = await shoppingListsCollection.findOne(
+      { _id: new ObjectId(id) },
+    );
 
     const updateResult = await shoppingListsCollection.updateOne(
       { _id: new ObjectId(id) },
@@ -203,9 +207,9 @@ class Storage {
 
     const usersCollection = this.database.collection('users');
 
-    let invitees = [];
+    const invitees = [];
 
-    await this.handleRemovedInvitees(beforeUpdateShoppingList, updatedShoppingList)
+    await this.handleRemovedInvitees(beforeUpdateShoppingList, updatedShoppingList);
 
     for (let i = 0; i < updatedShoppingList.invitees.length; i += 1) {
       const invitee = updatedShoppingList.invitees[i];
@@ -238,11 +242,26 @@ class Storage {
     };
   }
 
+  async removeShoppingList(id) {
+    const usersCollection = this.database.collection('users');
+
+    await usersCollection.updateMany(
+      { shoppingLists: new ObjectId(id) },
+      { $pull: { shoppingLists: new ObjectId(id) } },
+    );
+
+    const shoppingListsCollection = this.database.collection('shopping_lists');
+
+    await shoppingListsCollection.deleteOne({ _id: new ObjectId(id) });
+  }
+
   async handleRemovedInvitees(beforeUpdateShoppingList, updatedShoppingList) {
     const usersCollection = this.database.collection('users');
 
     const removedInvitees = beforeUpdateShoppingList.invitees.filter(
-      (invitee) => !updatedShoppingList.invitees.find((i) => i.toHexString() === invitee.toHexString())
+      (invitee) => !updatedShoppingList.invitees.find(
+        (i) => i.toHexString() === invitee.toHexString(),
+      ),
     );
 
     for (let i = 0; i < removedInvitees.length; i += 1) {
@@ -255,7 +274,7 @@ class Storage {
       }
 
       const shoppingListsMissingRemoved = removedInviteeUser.shoppingLists.filter(
-        (shoppingList) => shoppingList.toHexString() !== updatedShoppingList._id.toHexString()
+        (shoppingList) => shoppingList.toHexString() !== updatedShoppingList._id.toHexString(),
       );
 
       await usersCollection.updateOne(
@@ -264,7 +283,7 @@ class Storage {
           $set: {
             ...removedInviteeUser,
             shoppingLists: shoppingListsMissingRemoved.map((shoppingList) => shoppingList.id),
-          }
+          },
         },
       );
     }

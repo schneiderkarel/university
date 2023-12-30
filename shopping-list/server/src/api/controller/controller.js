@@ -71,7 +71,7 @@ class Controller {
 
     const { caller } = request.header;
 
-    const callerInInvitees = shoppingList.invitees.find(invitee => invitee.id === caller)
+    const callerInInvitees = shoppingList.invitees.find((invitee) => invitee.id === caller);
     if (callerInInvitees) {
       throw new Error('Caller cannot be in invitees');
     }
@@ -80,12 +80,10 @@ class Controller {
 
     const createdShoppingList = await this.storage.createShoppingList(shoppingList);
 
-    await this.updateInvitees(createdShoppingList)
+    await this.updateInvitees(createdShoppingList);
 
-    {
-      user.shoppingLists.push({ id: createdShoppingList.id });
-      await this.storage.updateUser(user.id, user);
-    }
+    user.shoppingLists.push({ id: createdShoppingList.id });
+    await this.storage.updateUser(user.id, user);
 
     ctx.body = {
       data: {
@@ -129,19 +127,42 @@ class Controller {
     };
   }
 
+  async removeShoppingList(ctx) {
+    const { params, request } = ctx;
+
+    const shoppingListId = params.id;
+
+    const { caller } = request.header;
+
+    const user = await this.storage.user(caller);
+
+    if (!userHasShoppingList(user, shoppingListId)) {
+      throw Error('User does not have this shopping list');
+    }
+
+    const shoppingList = await this.storage.shoppingList(shoppingListId);
+
+    if (defineShoppingListRole(user.id, shoppingList.invitees) !== 'owner') {
+      throw Error('User is not owner of this shopping list');
+    }
+
+    await this.storage.removeShoppingList(shoppingListId);
+
+    ctx.body = '';
+    ctx.status = 204;
+  }
+
   async updateInvitees(shoppingList) {
     for (let i = 0; i < shoppingList.invitees.length; i += 1) {
       const invitee = shoppingList.invitees[i];
 
       const inviteeUser = await this.storage.user(invitee.id);
 
-      if (userHasShoppingList(inviteeUser, shoppingList.id)) {
-        continue
+      if (!userHasShoppingList(inviteeUser, shoppingList.id)) {
+        inviteeUser.shoppingLists.push({ id: shoppingList.id });
+
+        await this.storage.updateUser(inviteeUser.id, inviteeUser);
       }
-
-      inviteeUser.shoppingLists.push({ id: shoppingList.id });
-
-      await this.storage.updateUser(inviteeUser.id, inviteeUser);
     }
   }
 }
