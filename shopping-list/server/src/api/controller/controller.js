@@ -1,4 +1,4 @@
-import { defineShoppingListRole } from './utils.js';
+import { defineShoppingListRole, userHasShoppingList } from './utils.js';
 
 class Controller {
   storage;
@@ -48,23 +48,21 @@ class Controller {
 
     const { caller } = request.header;
 
+    const callerInInvitees = shoppingList.invitees.find(invitee => invitee.id === caller)
+    if (callerInInvitees) {
+      throw new Error('Caller cannot be in invitees');
+    }
+
     const user = await this.storage.user(caller);
 
     const createdShoppingList = await this.storage.createShoppingList(shoppingList);
 
-    for (let i = 0; i < shoppingList.invitees.length; i += 1) {
-      const invitee = shoppingList.invitees[i];
+    await this.updateInvitees(createdShoppingList)
 
-      const inviteeUser = await this.storage.user(invitee.id);
-
-      inviteeUser.shoppingLists.push({ id: createdShoppingList.id });
-
-      await this.storage.updateUser(inviteeUser.id, inviteeUser);
+    {
+      user.shoppingLists.push({ id: createdShoppingList.id });
+      await this.storage.updateUser(user.id, user);
     }
-
-    user.shoppingLists.push({ id: createdShoppingList.id });
-
-    await this.storage.updateUser(user.id, user);
 
     ctx.body = {
       data: {
@@ -72,6 +70,56 @@ class Controller {
         role: defineShoppingListRole(user.id, createdShoppingList.invitees),
       },
     };
+  }
+
+  async updateShoppingList(ctx) {
+    const { params, request } = ctx;
+
+    const shoppingListId = params.id;
+
+    const shoppingList = {
+      name: request.body.name,
+      image: request.body.image,
+      description: request.body.description,
+      archived: request.body.archived,
+      invitees: request.body.invitees,
+      items: request.body.items,
+    };
+
+    const { caller } = request.header;
+
+    const user = await this.storage.user(caller);
+
+    if (!userHasShoppingList(user, shoppingListId)) {
+      throw Error('User does not have this shopping list');
+    }
+
+    const updatedShoppingList = await this.storage.updateShoppingList(shoppingListId, shoppingList);
+
+    await this.updateInvitees(updatedShoppingList);
+
+    ctx.body = {
+      data: {
+        ...updatedShoppingList,
+        role: defineShoppingListRole(user.id, updatedShoppingList.invitees),
+      },
+    };
+  }
+
+  async updateInvitees(shoppingList) {
+    for (let i = 0; i < shoppingList.invitees.length; i += 1) {
+      const invitee = shoppingList.invitees[i];
+
+      const inviteeUser = await this.storage.user(invitee.id);
+
+      if (userHasShoppingList(inviteeUser, shoppingList.id)) {
+        continue
+      }
+
+      inviteeUser.shoppingLists.push({ id: shoppingList.id });
+
+      await this.storage.updateUser(inviteeUser.id, inviteeUser);
+    }
   }
 }
 
