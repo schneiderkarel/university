@@ -3,5 +3,6 @@ export const defineShoppingListRole = (id, invitees) => {
   return found.length === 0 ? 'owner' : 'invitee';
 };
 
-export const userHasShoppingList = (user, shoppingListId) =>
-  user.shoppingLists.find((shoppingList) => shoppingList.id === shoppingListId)
+export const userHasShoppingList = (user, shoppingListId) => user.shoppingLists.find(
+  (shoppingList) => shoppingList.id === shoppingListId,
+);
