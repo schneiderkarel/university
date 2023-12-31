@@ -137,7 +137,7 @@ i18n
           UserCreateForm: {
             title: 'Vítejte! Jak se jmenujete?',
             name: 'Jméno',
-            button: 'Vytvořte uživatele',
+            button: 'Vytvořit uživatele',
           },
           ShoppingLists: {
             filters: {

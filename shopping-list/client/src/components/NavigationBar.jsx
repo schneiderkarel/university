@@ -34,7 +34,7 @@ const NavigationBar = () => {
             {
               theme === 'light'
                 ? (
-                  <Icon path={mdiMoonFull} size={1} style={{ color: 'black' }} />
+                  <Icon path={mdiMoonFull} size={1} style={{ color: '#28242c' }} />
                 )
                 : (
                   <Icon path={mdiMoonFull} size={1} style={{ color: 'white' }} />
