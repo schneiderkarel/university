@@ -66,8 +66,12 @@ const ShoppingListInvitees = ({
       (user) => !invitees.some((invitee) => invitee.id === user.id),
     );
 
+    const sortedUsersWithoutAlreadyInvitedUsers = usersWithoutAlreadyInvitedUsers.sort(
+      (a, b) => a.name.localeCompare(b.name),
+    );
+
     return (
-      usersWithoutAlreadyInvitedUsers.map((user) => (
+      sortedUsersWithoutAlreadyInvitedUsers.map((user) => (
         <option
           key={user.id}
           value={user.id}
