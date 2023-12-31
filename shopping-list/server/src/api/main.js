@@ -1,5 +1,6 @@
 import 'dotenv/config.js';
 import Koa from 'koa';
+import cors from '@koa/cors';
 import { HttpMethodEnum, koaBody } from 'koa-body';
 import errorMiddleware from './middleware/error/error.js';
 import apiRouter from './router/api/router.js';
@@ -12,6 +13,8 @@ const app = new Koa();
 const monitoring = new Koa();
 
 const main = async () => {
+  app.use(cors());
+
   monitoring.use(
     koaBody({
       parsedMethods: [HttpMethodEnum.GET],

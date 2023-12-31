@@ -30,12 +30,27 @@ class Storage {
       throw new UserNotFoundError();
     }
 
+    const shoppingListsCollection = this.database.collection('shopping_lists');
+
+    let shoppingLists = [];
+
+    for (let i = 0; i < user.shoppingLists.length; i+=1) {
+      const shoppingList = await shoppingListsCollection.findOne({ _id: user.shoppingLists[i] });
+      if (!shoppingList) {
+        throw new ShoppingListNotFoundError();
+      }
+
+      shoppingLists.push({
+        id: shoppingList._id.toHexString(),
+        name: shoppingList.name,
+        archived: shoppingList.archived
+      });
+    }
+
     return {
       id: user._id.toHexString(),
       name: user.name,
-      shoppingLists: user.shoppingLists.map((shoppingList) => ({
-        id: shoppingList.toHexString(),
-      })),
+      shoppingLists: shoppingLists,
     };
   }
 

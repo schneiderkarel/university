@@ -13,6 +13,8 @@ export const userSchema = Joi.object({
   shoppingLists: Joi.array().items(
     Joi.object({
       id: idSchema.required(),
+      name: Joi.string().required(),
+      archived: Joi.boolean().required(),
     }),
   ).required(),
 });

@@ -45,7 +45,7 @@ class Controller {
     const user = await this.storage.user(caller);
 
     if (!userHasShoppingList(user, shoppingListId)) {
-      throw BadRequestError('User does not have this shopping list');
+      throw new BadRequestError('User does not have this shopping list');
     }
 
     const shoppingList = await this.storage.shoppingList(shoppingListId);
@@ -113,7 +113,7 @@ class Controller {
     const user = await this.storage.user(caller);
 
     if (!userHasShoppingList(user, shoppingListId)) {
-      throw BadRequestError('User does not have this shopping list');
+      throw new BadRequestError('User does not have this shopping list');
     }
 
     const updatedShoppingList = await this.storage.updateShoppingList(shoppingListId, shoppingList);
@@ -138,13 +138,13 @@ class Controller {
     const user = await this.storage.user(caller);
 
     if (!userHasShoppingList(user, shoppingListId)) {
-      throw BadRequestError('User does not have this shopping list');
+      throw new BadRequestError('User does not have this shopping list');
     }
 
     const shoppingList = await this.storage.shoppingList(shoppingListId);
 
     if (defineShoppingListRole(user.id, shoppingList.invitees) !== 'owner') {
-      throw BadRequestError('User is not owner of this shopping list');
+      throw new BadRequestError('User is not owner of this shopping list');
     }
 
     await this.storage.removeShoppingList(shoppingListId);
@@ -163,13 +163,13 @@ class Controller {
     const user = await this.storage.user(caller);
 
     if (!userHasShoppingList(user, shoppingListId)) {
-      throw BadRequestError('User does not have this shopping list');
+      throw new BadRequestError('User does not have this shopping list');
     }
 
     const shoppingList = await this.storage.shoppingList(shoppingListId);
 
     if (defineShoppingListRole(user.id, shoppingList.invitees) === 'owner') {
-      throw BadRequestError('User is owner of this shopping list');
+      throw new BadRequestError('User is owner of this shopping list');
     }
 
     user.shoppingLists = user.shoppingLists.filter(
