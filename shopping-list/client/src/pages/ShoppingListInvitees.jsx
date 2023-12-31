@@ -2,13 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, FormSelect, InputGroup } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-import { ShoppingListInvitee } from './ShoppingListInvitee';
+import ShoppingListInvitee from './ShoppingListInvitee';
 import { shoppingListInviteeType } from '../types/types';
 import CallerContext from '../context/caller.context';
 import Client from '../client/client';
 import AlertContext from '../context/alert.context';
 
-export const ShoppingListInvitees = ({
+const ShoppingListInvitees = ({
   shoppingListInvitees,
   setShoppingList,
 }) => {

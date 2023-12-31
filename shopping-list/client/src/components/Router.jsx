@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
-  BrowserRouter as ReactRouter, Outlet, Route, Routes,
+  BrowserRouter as ReactRouter, Navigate, Route, Routes,
 } from 'react-router-dom';
 import ShoppingLists from '../pages/ShoppingLists';
 import NavigationBar from './NavigationBar';
 import NotFound from '../pages/NotFound';
 import ShoppingListDetail from '../pages/ShoppingListDetail';
+import CallerContext from '../context/caller.context';
+import ProtectedRoute from './ProtectedRoute';
+import UserCreateForm from '../pages/UserCreateForm';
 
 const Router = () => {
+  const [caller] = useContext(CallerContext);
+
   const routes = [
     {
       path: '/',
@@ -26,8 +31,14 @@ const Router = () => {
   return (
     <ReactRouter basename="/">
       <NavigationBar />
+
       <Routes>
-        <Route element={<Outlet />}>
+        <Route
+          path="/users"
+          element={!caller ? <UserCreateForm /> : <Navigate to="/" />}
+        />
+
+        <Route element={<ProtectedRoute caller={caller} />}>
           {routes.map(({
             path,
             element,

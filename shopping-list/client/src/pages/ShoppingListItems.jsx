@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { FormCheck, FormGroup } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { v4 as uuidv4 } from 'uuid';
-import { ShoppingListItem } from './ShoppingListItem';
+import ShoppingListItem from './ShoppingListItem';
 import { shoppingListItemType } from '../types/types';
 
-export const ShoppingListItems = ({ shoppingListItems, setShoppingList }) => {
+const ShoppingListItems = ({ shoppingListItems, setShoppingList }) => {
   const [items, setItems] = useState(shoppingListItems);
 
   useEffect(() => {

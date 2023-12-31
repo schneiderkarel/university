@@ -4,10 +4,17 @@ import PropTypes from 'prop-types';
 const CallerContext = createContext();
 
 export const CallerProvider = ({ children }) => {
-  const [caller, setCaller] = useState('659034fcd3137f17b974a2c4');
+  const initCaller = localStorage.getItem('caller');
+
+  const [caller, setCaller] = useState(initCaller);
+
+  const setCallerWithLocalStorage = (newCaller) => {
+    localStorage.setItem('caller', newCaller);
+    setCaller(newCaller);
+  };
 
   const value = useMemo(
-    () => ([caller, setCaller]),
+    () => ([caller, setCallerWithLocalStorage]),
     [caller, setCaller],
   );
 

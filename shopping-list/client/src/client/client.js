@@ -24,6 +24,28 @@ class Client {
     }
   }
 
+  async createUser(user) {
+    const response = await fetch(`${this.address}/users`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        CALLER: '',
+      },
+      body: JSON.stringify(user),
+    });
+
+    const body = await response.json();
+
+    switch (response.status) {
+    case 200:
+      return body.data;
+    case 422:
+      throw Error(`There is a problem with your input: ${body.error.detail}.`);
+    default:
+      throw Error('There was an unexpected error when creating user. Please, try again.');
+    }
+  }
+
   async user(id) {
     const response = await fetch(`${this.address}/users/${id}`, {
       method: 'GET',

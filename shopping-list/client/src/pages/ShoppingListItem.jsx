@@ -5,7 +5,7 @@ import InputGroupText from 'react-bootstrap/InputGroupText';
 import Button from 'react-bootstrap/Button';
 import { shoppingListItemType } from '../types/types';
 
-export const ShoppingListItem = ({
+const ShoppingListItem = ({
   shoppingListItem, shoppingListItemChange, shoppingListItemRemove,
 }) => {
   const [item, setItem] = useState(shoppingListItem);
