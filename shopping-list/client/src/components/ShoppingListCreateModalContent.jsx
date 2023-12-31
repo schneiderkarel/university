@@ -7,6 +7,7 @@ import {
   ModalTitle,
 } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import ShoppingListCreateForm from '../pages/ShoppingListCreateForm';
 import { emptyShoppingList } from '../pages/helper';
 import ModalContext from '../context/modal.context';
@@ -15,6 +16,8 @@ import CallerContext from '../context/caller.context';
 import AlertContext from '../context/alert.context';
 
 const ShoppingListCreateModalContent = () => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
   const client = new Client();
   const [caller] = useContext(CallerContext);
@@ -42,7 +45,7 @@ const ShoppingListCreateModalContent = () => {
       const resp = await client.createShoppingList(caller, createShoppingList);
       navigate(`/shopping-lists/${resp.id}`);
       setContent(null);
-      setAlert({ variant: 'success', message: 'Shopping list created successfully.' });
+      setAlert({ variant: 'success', message: t('Alert.createShoppingList.message') });
     } catch (err) {
       setAlert({ variant: 'danger', message: err.message });
     }
@@ -55,7 +58,7 @@ const ShoppingListCreateModalContent = () => {
   return (
     <div>
       <ModalHeader closeButton>
-        <ModalTitle>New shopping list</ModalTitle>
+        <ModalTitle>{t('ShoppingListCreateModalContent.title')}</ModalTitle>
       </ModalHeader>
       <ModalBody>
         <ShoppingListCreateForm
@@ -65,9 +68,11 @@ const ShoppingListCreateModalContent = () => {
       </ModalBody>
       <ModalFooter>
         <Button variant="secondary" onClick={handleClose}>
-          Close
+          {t('ShoppingListCreateModalContent.buttons.close')}
         </Button>
-        <Button variant="primary" onClick={createButtonClick}>Create</Button>
+        <Button variant="primary" onClick={createButtonClick}>
+          {t('ShoppingListCreateModalContent.buttons.create')}
+        </Button>
       </ModalFooter>
     </div>
   );

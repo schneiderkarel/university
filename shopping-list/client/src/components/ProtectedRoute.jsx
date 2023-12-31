@@ -13,7 +13,7 @@ ProtectedRoute.propTypes = {
 };
 
 ProtectedRoute.defaultProps = {
-  caller: 'A',
+  caller: '',
 };
 
 export default ProtectedRoute;

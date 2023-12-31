@@ -6,6 +6,7 @@ import {
 import { mdiPlaylistPlus } from '@mdi/js';
 import Icon from '@mdi/react';
 import Button from 'react-bootstrap/Button';
+import { useTranslation } from 'react-i18next';
 import ShoppingListCard from '../components/ShoppingListCard';
 import ModalContext from '../context/modal.context';
 import Modal from '../components/Modal';
@@ -15,6 +16,8 @@ import ShoppingListCreateModalContent from '../components/ShoppingListCreateModa
 import AlertContext from '../context/alert.context';
 
 const ShoppingLists = () => {
+  const { t } = useTranslation();
+
   const [modalContent, setModalContent] = useContext(ModalContext);
   const [caller] = useContext(CallerContext);
   const [, setAlert] = useContext(AlertContext);
@@ -40,12 +43,12 @@ const ShoppingLists = () => {
 
   const filtersSection = () => (
     <div className="mt-3">
-      <h5>Filters</h5>
+      <h5>{t('ShoppingLists.filters.title')}</h5>
 
       <FormCheck
         type="switch"
         className="mt-3 mb-3"
-        label="Unarchived"
+        label={t('ShoppingLists.filters.unarchived')}
         onChange={() => setUnarchivedFilter(!unarchivedFilter)}
       />
     </div>
@@ -93,7 +96,7 @@ const ShoppingLists = () => {
           >
             <Button className="h-100" variant="outline-secondary">
               <Icon path={mdiPlaylistPlus} size={1.5} />
-              <h6>New shopping list</h6>
+              <h6>{t('ShoppingLists.button')}</h6>
             </Button>
           </CardWrap>
         </Col>

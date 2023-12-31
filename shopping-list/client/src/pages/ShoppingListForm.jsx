@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormControl, FormGroup, FormLabel } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import ShoppingListInvitees from './ShoppingListInvitees';
 import { isUserShoppingListOwner } from './helper';
 import { shoppingListType } from '../types/types';
 
 const ShoppingListForm = ({ shoppingList, setShoppingList }) => {
+  const { t } = useTranslation();
+
   const setName = (value) => {
     setShoppingList((prev) => ({
       ...prev,
@@ -29,10 +32,10 @@ const ShoppingListForm = ({ shoppingList, setShoppingList }) => {
 
   return (
     <FormGroup className="mb-3 w-50">
-      <h4>Detail</h4>
+      <h4>{t('ShoppingListForm.title')}</h4>
 
       <FormGroup className="mb-3 mt-3">
-        <FormLabel>Name</FormLabel>
+        <FormLabel>{t('ShoppingListForm.name')}</FormLabel>
         <FormControl
           value={shoppingList.name}
           disabled={!isUserShoppingListOwner(shoppingList)}
@@ -41,7 +44,7 @@ const ShoppingListForm = ({ shoppingList, setShoppingList }) => {
       </FormGroup>
 
       <FormGroup className="mb-3 mt-3">
-        <FormLabel>Image</FormLabel>
+        <FormLabel>{t('ShoppingListForm.image')}</FormLabel>
         <FormControl
           value={shoppingList.image}
           onChange={(e) => setImage(e.target.value)}
@@ -49,7 +52,7 @@ const ShoppingListForm = ({ shoppingList, setShoppingList }) => {
       </FormGroup>
 
       <FormGroup className="mb-3 mt-3">
-        <FormLabel>Description</FormLabel>
+        <FormLabel>{t('ShoppingListForm.description')}</FormLabel>
         <FormControl
           as="textarea"
           rows={10}

@@ -10,6 +10,7 @@ import {
   SplitButton,
 } from 'react-bootstrap';
 import React, { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import ModalContext from '../context/modal.context';
 import ShoppingListRemoveModalContent from './ShoppingListRemoveModalContent';
 import { isUserShoppingListOwner } from '../pages/helper';
@@ -18,6 +19,8 @@ import Client from '../client/client';
 import AlertContext from '../context/alert.context';
 
 const ShoppingListCard = ({ id }) => {
+  const { t } = useTranslation();
+
   const [, setModalContent] = useContext(ModalContext);
   const client = new Client();
   const [caller] = useContext(CallerContext);
@@ -66,6 +69,7 @@ const ShoppingListCard = ({ id }) => {
     try {
       const resp = await client.updateShoppingList(caller, id, updateShoppingList);
       setShoppingList(resp);
+      window.location.reload();
     } catch (err) {
       console.error(err.message);
     }
@@ -81,13 +85,15 @@ const ShoppingListCard = ({ id }) => {
     <SplitButton
       href={`/shopping-lists/${shoppingList.id}`}
       variant="primary"
-      title="Detail"
+      title={t('ShoppingListCard.title')}
     >
       <DropdownItem
         eventKey="1"
         onClick={archiveButtonClick}
       >
-        {shoppingList.archived ? 'Unarchive' : 'Archive'}
+        {shoppingList.archived
+          ? t('ShoppingListCard.buttons.unarchive')
+          : t('ShoppingListCard.buttons.archive')}
       </DropdownItem>
 
       {isUserShoppingListOwner(shoppingList) && (
@@ -97,7 +103,7 @@ const ShoppingListCard = ({ id }) => {
             eventKey="2"
             onClick={removeButtonClick}
           >
-            Remove
+            {t('ShoppingListCard.buttons.remove')}
           </DropdownItem>
         </div>
       )}

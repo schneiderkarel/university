@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import { Form, Spinner } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
+import { useTranslation } from 'react-i18next';
 import ShoppingListForm from './ShoppingListForm';
 import ShoppingListItems from './ShoppingListItems';
 import { isUserShoppingListOwner } from './helper';
@@ -11,6 +12,8 @@ import Client from '../client/client';
 import AlertContext from '../context/alert.context';
 
 const ShoppingListDetail = () => {
+  const { t } = useTranslation();
+
   const { id } = useParams();
   const navigate = useNavigate();
   const client = new Client();
@@ -50,7 +53,7 @@ const ShoppingListDetail = () => {
     try {
       const resp = await client.updateShoppingList(caller, id, updateShoppingList);
       setShoppingList(resp);
-      setAlert({ variant: 'success', message: 'Shopping list updated successfully.' });
+      setAlert({ variant: 'success', message: t('Alert.updateShoppingList.message') });
     } catch (err) {
       setAlert({ variant: 'danger', message: err.message });
     }
@@ -83,7 +86,7 @@ const ShoppingListDetail = () => {
             variant="primary"
             onClick={saveButtonClick}
           >
-            Save
+            {t('ShoppingListDetail.buttons.update')}
           </Button>
           {!isUserShoppingListOwner(shoppingList) && (
             <Button
@@ -92,7 +95,7 @@ const ShoppingListDetail = () => {
               onClick={leaveButtonClick}
               style={{ marginLeft: '1rem' }}
             >
-              Leave
+              {t('ShoppingListDetail.buttons.leave')}
             </Button>
           )}
         </Form>

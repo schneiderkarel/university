@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, FormSelect, InputGroup } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
+import { useTranslation } from 'react-i18next';
 import ShoppingListInvitee from './ShoppingListInvitee';
 import { shoppingListInviteeType } from '../types/types';
 import CallerContext from '../context/caller.context';
@@ -12,6 +13,8 @@ const ShoppingListInvitees = ({
   shoppingListInvitees,
   setShoppingList,
 }) => {
+  const { t } = useTranslation();
+
   const client = new Client();
   const [caller] = useContext(CallerContext);
   const [, setAlert] = useContext(AlertContext);
@@ -84,7 +87,7 @@ const ShoppingListInvitees = ({
 
   return (
     <FormGroup className="mt-3 mb-3">
-      <h4>Invitees</h4>
+      <h4>{t('ShoppingListInvitees.title')}</h4>
 
       {inviteesNotEmpty(invitees)
         ? invitees.map((item) => (
@@ -95,19 +98,19 @@ const ShoppingListInvitees = ({
           />
         ))
         : (
-          <h6 className="mt-3 mb-3">No added invitees. Please add them by using the form below.</h6>
+          <h6 className="mt-3 mb-3">{t('ShoppingListInvitees.empty')}</h6>
         )}
 
       <InputGroup className="mt-3 mb-3">
         <FormSelect onChange={(e) => inviteeSelectChange(e)}>
-          <option>{'Invite user - '}</option>
+          <option>{`${t('ShoppingListInvitees.optionHeader')} - `}</option>
           {displayInviteUserOptions()}
         </FormSelect>
         <Button
           variant="secondary"
           onClick={inviteButtonClick}
         >
-          Invite
+          {t('ShoppingListInvitees.button')}
         </Button>
       </InputGroup>
     </FormGroup>
