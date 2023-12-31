@@ -91,7 +91,7 @@ const ShoppingLists = () => {
               );
             }}
           >
-            <Button className="h-100" variant="light">
+            <Button className="h-100" variant="outline-secondary">
               <Icon path={mdiPlaylistPlus} size={1.5} />
               <h6>New shopping list</h6>
             </Button>

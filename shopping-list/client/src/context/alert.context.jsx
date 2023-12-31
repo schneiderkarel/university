@@ -34,7 +34,7 @@ export const AlertProvider = ({ children }) => {
 };
 
 AlertProvider.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.element).isRequired,
+  children: PropTypes.element.isRequired,
 };
 
 export default AlertContext;
