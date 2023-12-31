@@ -8,6 +8,7 @@ import {
 } from '@mdi/js';
 import Button from 'react-bootstrap/Button';
 import ThemeContext from '../context/theme.context';
+import LanguagePicker from './LanguagePicker';
 
 const NavigationBar = () => {
   const [theme, toggleTheme] = useContext(ThemeContext);
@@ -22,21 +23,25 @@ const NavigationBar = () => {
           </div>
         </NavbarBrand>
 
-        <Button
-          onClick={() => toggleTheme()}
-          className="rounded-circle p-0 m-0"
-          variant={theme === 'light' ? 'theme' : 'theme'}
-        >
-          {
-            theme === 'light'
-              ? (
-                <Icon path={mdiMoonFull} size={1} style={{ color: 'black' }} />
-              )
-              : (
-                <Icon path={mdiMoonFull} size={1} style={{ color: 'white' }} />
-              )
-          }
-        </Button>
+        <div className="d-flex align-items-center justify-content-center">
+          <LanguagePicker />
+
+          <Button
+            onClick={() => toggleTheme()}
+            className="rounded-circle p-0 m-0 ms-3"
+            variant={theme === 'light' ? 'theme' : 'theme'}
+          >
+            {
+              theme === 'light'
+                ? (
+                  <Icon path={mdiMoonFull} size={1} style={{ color: 'black' }} />
+                )
+                : (
+                  <Icon path={mdiMoonFull} size={1} style={{ color: 'white' }} />
+                )
+            }
+          </Button>
+        </div>
       </Container>
     </Navbar>
   );

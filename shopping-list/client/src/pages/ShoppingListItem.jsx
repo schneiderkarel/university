@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 import { FormControl, FormGroup, InputGroup } from 'react-bootstrap';
 import InputGroupText from 'react-bootstrap/InputGroupText';
 import Button from 'react-bootstrap/Button';
+import { useTranslation } from 'react-i18next';
 import { shoppingListItemType } from '../types/types';
 
 const ShoppingListItem = ({
   shoppingListItem, shoppingListItemChange, shoppingListItemRemove,
 }) => {
+  const { t } = useTranslation();
+
   const [item, setItem] = useState(shoppingListItem);
 
   const nameChange = (value) => {
@@ -42,7 +45,7 @@ const ShoppingListItem = ({
           onChange={(e) => nameChange(e.target.value)}
         />
 
-        <InputGroupText>Qty.</InputGroupText>
+        <InputGroupText>{t('ShoppingListItem.quantity')}</InputGroupText>
         <FormControl
           value={item.quantity}
           onChange={(e) => quantityChange(e.target.value)}

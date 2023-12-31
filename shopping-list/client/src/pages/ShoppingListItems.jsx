@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import { FormCheck, FormGroup } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { v4 as uuidv4 } from 'uuid';
+import { useTranslation } from 'react-i18next';
 import ShoppingListItem from './ShoppingListItem';
 import { shoppingListItemType } from '../types/types';
 
 const ShoppingListItems = ({ shoppingListItems, setShoppingList }) => {
+  const { t } = useTranslation();
+
   const [items, setItems] = useState(shoppingListItems);
 
   useEffect(() => {
@@ -56,21 +59,21 @@ const ShoppingListItems = ({ shoppingListItems, setShoppingList }) => {
 
   return (
     <FormGroup className="w-50 ms-5">
-      <h4>Items</h4>
+      <h4>{t('ShoppingListItems.title')}</h4>
 
       {itemsNotEmpty(items) ? (
         <div className="mt-3 mb-3">
           <FormCheck
             type="switch"
             className="mt-3 mb-3"
-            label="Unresolved"
+            label={t('ShoppingListItems.filters.unresolved')}
             checked={unresolvedFilterCheck}
             onChange={() => setUnresolvedFilterCheck(!unresolvedFilterCheck)}
           />
           {displayShoppingListItems()}
         </div>
       ) : (
-        <h6 className="mt-3 mb-3">No items to display.</h6>
+        <h6 className="mt-3 mb-3">{t('ShoppingListItems.empty')}</h6>
       )}
 
       <div className="d-flex align-items-center justify-content-between">
@@ -79,11 +82,12 @@ const ShoppingListItems = ({ shoppingListItems, setShoppingList }) => {
           size="sm"
           onClick={addItemButtonClick}
         >
-          Add item
+          {t('ShoppingListItems.button')}
         </Button>
+
         {itemsNotEmpty(items) && (
           <span className="text-secondary">
-            {`Resolved items: ${items.filter((item) => item.resolved).length}/${items.length}`}
+            {`${t('ShoppingListItems.summary')} ${items.filter((item) => item.resolved).length}/${items.length}`}
           </span>
         )}
       </div>

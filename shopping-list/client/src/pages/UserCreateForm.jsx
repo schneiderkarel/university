@@ -2,11 +2,14 @@ import React, { useContext, useState } from 'react';
 import { FormControl, FormGroup, FormLabel } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
+import { useTranslation } from 'react-i18next';
 import Client from '../client/client';
 import AlertContext from '../context/alert.context';
 import CallerContext from '../context/caller.context';
 
 const UserCreateForm = () => {
+  const { t } = useTranslation();
+
   const client = new Client();
   const [, setAlert] = useContext(AlertContext);
   const [, setCaller] = useContext(CallerContext);
@@ -29,14 +32,14 @@ const UserCreateForm = () => {
   return (
     <Container className="mb-5 mt-5">
       <h4 className="d-flex justify-content-center align-items-center">
-        Welcome! What is your name?
+        {t('UserCreateForm.title')}
       </h4>
 
       <div className="d-flex justify-content-center mt-5">
         <div style={{ width: '400px' }}>
           <div className="justify-content-center align-items-center">
             <FormGroup className="mb-3 mt-3">
-              <FormLabel>Name</FormLabel>
+              <FormLabel>{t('UserCreateForm.name')}</FormLabel>
               <FormControl
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -52,7 +55,7 @@ const UserCreateForm = () => {
             <h6
               className="d-flex justify-content-center align-items-center mb-0"
             >
-              Create user
+              {t('UserCreateForm.button')}
             </h6>
           </Button>
         </div>

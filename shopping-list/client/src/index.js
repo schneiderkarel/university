@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import './i18n';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ModalProvider } from './context/modal.context';
 import { CallerProvider } from './context/caller.context';

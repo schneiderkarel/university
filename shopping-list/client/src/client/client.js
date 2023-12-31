@@ -1,8 +1,14 @@
+import { useTranslation } from 'react-i18next';
+
 class Client {
   address;
 
+  t;
+
   constructor() {
     this.address = `${process.env.REACT_APP_BASE_URL || ''}`;
+    const { t } = useTranslation();
+    this.t = t;
   }
 
   async users(caller) {
@@ -20,7 +26,7 @@ class Client {
     case 200:
       return body.data;
     default:
-      throw Error('There was an unexpected error when loading users. Please, try again.');
+      throw Error(this.t('Client.users.default'));
     }
   }
 
@@ -40,9 +46,9 @@ class Client {
     case 200:
       return body.data;
     case 422:
-      throw Error(`There is a problem with your input: ${body.error.detail}.`);
+      throw Error(`${this.t('Client.users.422')}: ${body.error.detail}.`);
     default:
-      throw Error('There was an unexpected error when creating user. Please, try again.');
+      throw Error(this.t('Client.createUser.default'));
     }
   }
 
@@ -61,9 +67,9 @@ class Client {
     case 200:
       return body.data;
     case 404:
-      throw Error('User unexpectedly not found.');
+      throw Error(this.t('Client.user.404'));
     default:
-      throw Error('There was an unexpected error when loading the user. Please, try again.');
+      throw Error(this.t('Client.user.default'));
     }
   }
 
@@ -82,11 +88,11 @@ class Client {
     case 200:
       return body.data;
     case 400:
-      throw Error('You are not permitted to view the shopping list.');
+      throw Error(this.t('Client.shoppingList.400'));
     case 404:
-      throw Error('Shopping list unexpectedly not found.');
+      throw Error(this.t('Client.shoppingList.404'));
     default:
-      throw Error('There was an unexpected error when loading the shopping list. Please, try again.');
+      throw Error(this.t('Client.shoppingList.default'));
     }
   }
 
@@ -106,9 +112,9 @@ class Client {
     case 200:
       return body.data;
     case 422:
-      throw Error(`There is a problem with your input: ${body.error.detail}.`);
+      throw Error(`${this.t('Client.createShoppingList.422')}: ${body.error.detail}.`);
     default:
-      throw Error('There was an unexpected error when creating the shopping list. Please, try again.');
+      throw Error(this.t('Client.createShoppingList.default'));
     }
   }
 
@@ -128,11 +134,11 @@ class Client {
     case 200:
       return body.data;
     case 404:
-      throw Error('Shopping list unexpectedly not found.');
+      throw Error(this.t('Client.updateShoppingList.404'));
     case 422:
-      throw Error(`There is a problem with your input: ${body.error.detail}.`);
+      throw Error(`${this.t('Client.updateShoppingList.422')}: ${body.error.detail}.`);
     default:
-      throw Error('There was an unexpected error when updating the shopping list. Please, try again.');
+      throw Error(this.t('Client.updateShoppingList.default'));
     }
   }
 
@@ -148,9 +154,9 @@ class Client {
     if (response.status !== 204) {
       switch (response.status) {
       case 400:
-        throw Error('You are not permitted to remove the shopping list.');
+        throw Error(this.t('Client.removeShoppingList.400'));
       default:
-        throw Error('There was an unexpected error when removing the shopping list. Please, try again.');
+        throw Error(this.t('Client.removeShoppingList.default'));
       }
     }
   }
@@ -167,9 +173,9 @@ class Client {
     if (response.status !== 204) {
       switch (response.status) {
       case 400:
-        throw Error('You are not permitted to leave the shopping list.');
+        throw Error(this.t('Client.leaveShoppingList.400'));
       default:
-        throw Error('There was an unexpected error when removing the shopping list. Please, try again.');
+        throw Error(this.t('Client.leaveShoppingList.default'));
       }
     }
   }

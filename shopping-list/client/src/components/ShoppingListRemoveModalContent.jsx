@@ -2,12 +2,15 @@ import React, { useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import { ModalFooter, ModalHeader, ModalTitle } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import ModalContext from '../context/modal.context';
 import Client from '../client/client';
 import CallerContext from '../context/caller.context';
 import AlertContext from '../context/alert.context';
 
 const ShoppingListRemoveModalContent = ({ id }) => {
+  const { t } = useTranslation();
+
   const client = new Client();
   const [, setContent] = useContext(ModalContext);
   const [, setAlert] = useContext(AlertContext);
@@ -30,17 +33,17 @@ const ShoppingListRemoveModalContent = ({ id }) => {
   return (
     <div>
       <ModalHeader closeButton>
-        <ModalTitle>Are you sure you want to remove this shopping list?</ModalTitle>
+        <ModalTitle>{t('ShoppingListRemoveModalContent.title')}</ModalTitle>
       </ModalHeader>
       <ModalFooter>
         <Button variant="secondary" onClick={handleClose}>
-          Cancel
+          {t('ShoppingListRemoveModalContent.buttons.cancel')}
         </Button>
         <Button
           variant="danger"
           onClick={removeButtonClick}
         >
-          Remove
+          {t('ShoppingListRemoveModalContent.buttons.remove')}
         </Button>
       </ModalFooter>
     </div>
