@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { NavbarBrand } from 'react-bootstrap';
 import Icon from '@mdi/react';
 import {
-  mdiBasket, mdiMoonFull,
+  mdiBasket, mdiMoonNew,
 } from '@mdi/js';
 import Button from 'react-bootstrap/Button';
 import ThemeContext from '../context/theme.context';
@@ -34,10 +34,10 @@ const NavigationBar = () => {
             {
               theme === 'light'
                 ? (
-                  <Icon path={mdiMoonFull} size={1} style={{ color: 'black' }} />
+                  <Icon path={mdiMoonNew} size={1} style={{ color: '#28242c' }} />
                 )
                 : (
-                  <Icon path={mdiMoonFull} size={1} style={{ color: 'white' }} />
+                  <Icon path={mdiMoonNew} size={1} style={{ color: 'white' }} />
                 )
             }
           </Button>
