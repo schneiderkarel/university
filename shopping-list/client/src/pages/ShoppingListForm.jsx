@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { FormControl, FormGroup, FormLabel } from 'react-bootstrap';
 import { ShoppingListInvitees } from './ShoppingListInvitees';
 import { isUserShoppingListOwner } from './helper';
-import { shoppingListType, userType } from '../types/types';
+import { shoppingListType } from '../types/types';
 
-export const ShoppingListForm = ({ users, shoppingList, setShoppingList }) => {
+export const ShoppingListForm = ({ shoppingList, setShoppingList }) => {
   const setName = (value) => {
     setShoppingList((prev) => ({
       ...prev,
@@ -61,7 +61,6 @@ export const ShoppingListForm = ({ users, shoppingList, setShoppingList }) => {
 
       {isUserShoppingListOwner(shoppingList) && (
         <ShoppingListInvitees
-          users={users}
           shoppingListInvitees={shoppingList.invitees}
           setShoppingList={setShoppingList}
         />
@@ -71,7 +70,6 @@ export const ShoppingListForm = ({ users, shoppingList, setShoppingList }) => {
 };
 
 ShoppingListForm.propTypes = {
-  users: PropTypes.arrayOf(userType().isRequired).isRequired,
   shoppingList: shoppingListType().isRequired,
   setShoppingList: PropTypes.func.isRequired,
 };
