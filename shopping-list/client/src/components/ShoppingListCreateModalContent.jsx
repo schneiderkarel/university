@@ -12,6 +12,7 @@ import { emptyShoppingList } from '../pages/helper';
 import ModalContext from '../context/modal.context';
 import Client from '../client/client';
 import CallerContext from '../context/caller.context';
+import AlertContext from '../context/alert.context';
 
 const ShoppingListCreateModalContent = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const ShoppingListCreateModalContent = () => {
   const [caller] = useContext(CallerContext);
 
   const [, setContent] = useContext(ModalContext);
+  const [, setAlert] = useContext(AlertContext);
 
   const [shoppingList, setShoppingList] = useState(emptyShoppingList());
 
@@ -40,8 +42,9 @@ const ShoppingListCreateModalContent = () => {
       const resp = await client.createShoppingList(caller, createShoppingList);
       navigate(`/shopping-lists/${resp.id}`);
       setContent(null);
+      setAlert({ variant: 'success', message: 'Shopping list created successfully.' });
     } catch (err) {
-      console.error(err);
+      setAlert({ variant: 'danger', message: err.message });
     }
   };
 

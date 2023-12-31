@@ -5,10 +5,12 @@ import PropTypes from 'prop-types';
 import ModalContext from '../context/modal.context';
 import Client from '../client/client';
 import CallerContext from '../context/caller.context';
+import AlertContext from '../context/alert.context';
 
 const ShoppingListRemoveModalContent = ({ id }) => {
   const client = new Client();
   const [, setContent] = useContext(ModalContext);
+  const [, setAlert] = useContext(AlertContext);
   const [caller] = useContext(CallerContext);
 
   const handleClose = () => {
@@ -21,7 +23,7 @@ const ShoppingListRemoveModalContent = ({ id }) => {
       handleClose();
       window.location.reload();
     } catch (err) {
-      console.error(err);
+      setAlert({ variant: 'danger', message: err.message });
     }
   };
 
