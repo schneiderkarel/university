@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormControl, FormGroup, FormLabel } from 'react-bootstrap';
-import { ShoppingListInvitees } from './ShoppingListInvitees';
+import ShoppingListInvitees from './ShoppingListInvitees';
 import { isUserShoppingListOwner } from './helper';
 import { shoppingListType } from '../types/types';
 
-export const ShoppingListForm = ({ shoppingList, setShoppingList }) => {
+const ShoppingListForm = ({ shoppingList, setShoppingList }) => {
   const setName = (value) => {
     setShoppingList((prev) => ({
       ...prev,

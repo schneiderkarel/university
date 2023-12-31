@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import InputGroupText from 'react-bootstrap/InputGroupText';
 import { shoppingListInviteeType } from '../types/types';
 
-export const ShoppingListInvitee = ({ shoppingListInvitee, removeShoppingListInvitee }) => {
+const ShoppingListInvitee = ({ shoppingListInvitee, removeShoppingListInvitee }) => {
   const removeInviteeButtonClick = () => removeShoppingListInvitee(shoppingListInvitee.id);
 
   return (

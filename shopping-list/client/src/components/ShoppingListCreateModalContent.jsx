@@ -7,7 +7,7 @@ import {
   ModalTitle,
 } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { ShoppingListCreateForm } from '../pages/ShoppingListCreateForm';
+import ShoppingListCreateForm from '../pages/ShoppingListCreateForm';
 import { emptyShoppingList } from '../pages/helper';
 import ModalContext from '../context/modal.context';
 import Client from '../client/client';
