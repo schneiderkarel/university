@@ -6,39 +6,47 @@ import {
   ModalHeader,
   ModalTitle,
 } from 'react-bootstrap';
-import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { ShoppingListCreateForm } from '../pages/ShoppingListCreateForm';
 import { emptyShoppingList } from '../pages/helper';
-import { shoppingListType, userType } from '../types/types';
 import ModalContext from '../context/modal.context';
+import Client from '../client/client';
+import CallerContext from '../context/caller.context';
 
-const ShoppingListCreateModalContent = ({
-  users,
-  shoppingLists,
-  setShoppingLists,
-}) => {
+const ShoppingListCreateModalContent = () => {
   const navigate = useNavigate();
+  const client = new Client();
+  const [caller] = useContext(CallerContext);
 
   const [, setContent] = useContext(ModalContext);
 
   const [shoppingList, setShoppingList] = useState(emptyShoppingList());
 
-  const createButtonClick = () => {
-    const restShoppingLists = shoppingLists.filter((item) => item.id !== shoppingList.id);
-    setShoppingLists([...restShoppingLists, shoppingList]);
-    navigate(`/shopping-lists/${shoppingList.id}`);
-    setContent(null);
-  };
+  const createButtonClick = async () => {
+    const createShoppingList = {
+      name: shoppingList.name,
+      image: shoppingList.image,
+      description: shoppingList.description,
+      archived: shoppingList.archived,
+      invitees: shoppingList.invitees.map((invitee) => ({ id: invitee.id })),
+      items: shoppingList.items.map((item) => ({
+        name: item.name,
+        quantity: item.quantity,
+        resolved: item.resolved,
+      })),
+    };
 
-  const closeButtonClick = () => {
-    const shoppingListsWithoutCurrent = shoppingLists.filter((item) => item.id !== shoppingList.id);
-    setShoppingLists([...shoppingListsWithoutCurrent]);
+    try {
+      const resp = await client.createShoppingList(caller, createShoppingList);
+      navigate(`/shopping-lists/${resp.id}`);
+      setContent(null);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleClose = () => {
     setContent(null);
-    closeButtonClick();
   };
 
   return (
@@ -48,7 +56,6 @@ const ShoppingListCreateModalContent = ({
       </ModalHeader>
       <ModalBody>
         <ShoppingListCreateForm
-          users={users}
           shoppingList={shoppingList}
           setShoppingList={setShoppingList}
         />
@@ -61,12 +68,6 @@ const ShoppingListCreateModalContent = ({
       </ModalFooter>
     </div>
   );
-};
-
-ShoppingListCreateModalContent.propTypes = {
-  users: PropTypes.arrayOf(userType().isRequired).isRequired,
-  shoppingLists: PropTypes.arrayOf(shoppingListType().isRequired).isRequired,
-  setShoppingLists: PropTypes.func.isRequired,
 };
 
 export default ShoppingListCreateModalContent;

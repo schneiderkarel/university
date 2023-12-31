@@ -1,24 +1,38 @@
-import React, { useContext, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext, useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import {
   Card as CardWrap, Col, FormCheck, Row,
 } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import Icon from '@mdi/react';
 import { mdiPlaylistPlus } from '@mdi/js';
-import ShoppingListCreateModalContent from '../components/ShoppingListCreateModalContent';
+import Icon from '@mdi/react';
+import Button from 'react-bootstrap/Button';
 import ShoppingListCard from '../components/ShoppingListCard';
-import { shoppingListType, userType } from '../types/types';
 import ModalContext from '../context/modal.context';
 import Modal from '../components/Modal';
+import CallerContext from '../context/caller.context';
+import Client from '../client/client';
+import ShoppingListCreateModalContent from '../components/ShoppingListCreateModalContent';
 
-const ShoppingLists = ({
-  users,
-  shoppingLists,
-  setShoppingLists,
-}) => {
+const ShoppingLists = () => {
   const [modalContent, setModalContent] = useContext(ModalContext);
+  const [caller] = useContext(CallerContext);
+
+  const [shoppingLists, setShoppingLists] = useState([]);
+
+  const client = new Client();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const resp = await client.user(caller);
+        setShoppingLists(resp.shoppingLists);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchUser();
+  }, [caller]);
 
   const [unarchivedFilter, setUnarchivedFilter] = useState(false);
 
@@ -40,7 +54,6 @@ const ShoppingLists = ({
       ? lists.filter((shoppingList) => !shoppingList.archived)
       : lists
   );
-
   const displayShoppingLists = () => {
     let notArchived = shoppingLists.filter((shoppingList) => !shoppingList.archived);
     let archived = shoppingLists.filter((shoppingList) => shoppingList.archived);
@@ -72,11 +85,7 @@ const ShoppingLists = ({
             }}
             onClick={() => {
               setModalContent(
-                <ShoppingListCreateModalContent
-                  users={users}
-                  shoppingLists={shoppingLists}
-                  setShoppingLists={setShoppingLists}
-                />,
+                <ShoppingListCreateModalContent />,
               );
             }}
           >
@@ -94,24 +103,13 @@ const ShoppingLists = ({
                 key={shoppingList.id}
                 className="d-flex justify-content-evenly mt-3"
               >
-                <ShoppingListCard
-                  shoppingList={shoppingList}
-                  link={`/shopping-lists/${shoppingList.id}`}
-                  shoppingLists={shoppingLists}
-                  setShoppingLists={setShoppingLists}
-                />
+                <ShoppingListCard id={shoppingList.id} />
               </Col>
             ),
           )}
       </Row>
     </Container>
   );
-};
-
-ShoppingLists.propTypes = {
-  users: PropTypes.arrayOf(userType().isRequired).isRequired,
-  shoppingLists: PropTypes.arrayOf(shoppingListType().isRequired).isRequired,
-  setShoppingLists: PropTypes.func.isRequired,
 };
 
 export default ShoppingLists;

@@ -9,19 +9,32 @@ import {
   DropdownItem,
   SplitButton,
 } from 'react-bootstrap';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ModalContext from '../context/modal.context';
 import ShoppingListRemoveModalContent from './ShoppingListRemoveModalContent';
-import { shoppingListType } from '../types/types';
 import { isUserShoppingListOwner } from '../pages/helper';
+import CallerContext from '../context/caller.context';
+import Client from '../client/client';
 
-const ShoppingListCard = ({
-  shoppingList,
-  link,
-  shoppingLists,
-  setShoppingLists,
-}) => {
+const ShoppingListCard = ({ id }) => {
   const [, setModalContent] = useContext(ModalContext);
+  const client = new Client();
+  const [caller] = useContext(CallerContext);
+
+  const [shoppingList, setShoppingList] = useState();
+
+  useEffect(() => {
+    const fetchShoppingList = async () => {
+      try {
+        const resp = await client.shoppingList(caller, id);
+        setShoppingList(resp);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchShoppingList();
+  }, [caller]);
 
   const TITLE_CHAR_CEILING = 20;
   const DESCRIPTION_CHAR_CEILING = 175;
@@ -34,27 +47,38 @@ const ShoppingListCard = ({
     return text;
   };
 
-  const archiveButtonClick = () => {
-    const shoppingListsWithoutCurrent = shoppingLists.filter((item) => item.id !== shoppingList.id);
-    setShoppingLists([...shoppingListsWithoutCurrent, {
-      ...shoppingList,
+  const archiveButtonClick = async () => {
+    const updateShoppingList = {
+      name: shoppingList.name,
+      image: shoppingList.image,
+      description: shoppingList.description,
       archived: !shoppingList.archived,
-    }]);
+      invitees: shoppingList.invitees.map((invitee) => ({ id: invitee.id })),
+      items: shoppingList.items.map((item) => ({
+        name: item.name,
+        quantity: item.quantity,
+        resolved: item.resolved,
+      })),
+    };
+
+    try {
+      const resp = await client.updateShoppingList(caller, id, updateShoppingList);
+      setShoppingList(resp);
+      window.location.reload();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const removeButtonClick = () => {
     setModalContent(
-      <ShoppingListRemoveModalContent
-        id={shoppingList.id}
-        shoppingLists={shoppingLists}
-        setShoppingLists={setShoppingLists}
-      />,
+      <ShoppingListRemoveModalContent id={shoppingList.id} />,
     );
   };
 
   const buttonSection = () => (
     <SplitButton
-      href={link}
+      href={`/shopping-lists/${shoppingList.id}`}
       variant="primary"
       title="Detail"
     >
@@ -79,7 +103,7 @@ const ShoppingListCard = ({
     </SplitButton>
   );
 
-  return (
+  return shoppingList ? (
     <CardWrap
       key={shoppingList.id}
       style={{
@@ -107,14 +131,13 @@ const ShoppingListCard = ({
         {buttonSection()}
       </CardBody>
     </CardWrap>
+  ) : (
+    <div />
   );
 };
 
 ShoppingListCard.propTypes = {
-  shoppingList: shoppingListType().isRequired,
-  link: PropTypes.string.isRequired,
-  shoppingLists: PropTypes.arrayOf(shoppingListType().isRequired).isRequired,
-  setShoppingLists: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default ShoppingListCard;

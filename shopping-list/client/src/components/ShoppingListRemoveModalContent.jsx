@@ -3,19 +3,26 @@ import Button from 'react-bootstrap/Button';
 import { ModalFooter, ModalHeader, ModalTitle } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import ModalContext from '../context/modal.context';
-import { shoppingListType } from '../types/types';
+import Client from '../client/client';
+import CallerContext from '../context/caller.context';
 
-const ShoppingListRemoveModalContent = ({ id, shoppingLists, setShoppingLists }) => {
+const ShoppingListRemoveModalContent = ({ id }) => {
+  const client = new Client();
   const [, setContent] = useContext(ModalContext);
+  const [caller] = useContext(CallerContext);
 
   const handleClose = () => {
     setContent(null);
   };
 
-  const removeButtonClick = () => {
-    const shoppingListsWithoutCurrent = shoppingLists.filter((item) => item.id !== id);
-    setShoppingLists(shoppingListsWithoutCurrent);
-    handleClose();
+  const removeButtonClick = async () => {
+    try {
+      await client.removeShoppingList(caller, id);
+      handleClose();
+      window.location.reload();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -40,8 +47,6 @@ const ShoppingListRemoveModalContent = ({ id, shoppingLists, setShoppingLists })
 
 ShoppingListRemoveModalContent.propTypes = {
   id: PropTypes.string.isRequired,
-  shoppingLists: PropTypes.arrayOf(shoppingListType().isRequired).isRequired,
-  setShoppingLists: PropTypes.func.isRequired,
 };
 
 export default ShoppingListRemoveModalContent;

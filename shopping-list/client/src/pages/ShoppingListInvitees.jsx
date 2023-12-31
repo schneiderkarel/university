@@ -1,15 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, FormSelect, InputGroup } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { ShoppingListInvitee } from './ShoppingListInvitee';
-import { shoppingListInviteeType, userType } from '../types/types';
+import { shoppingListInviteeType } from '../types/types';
+import CallerContext from '../context/caller.context';
+import Client from '../client/client';
 
 export const ShoppingListInvitees = ({
-  users,
   shoppingListInvitees,
   setShoppingList,
 }) => {
+  const client = new Client();
+  const [caller] = useContext(CallerContext);
+
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const resp = await client.users(caller);
+        setUsers(resp.filter((user) => user.id !== caller));
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchUsers();
+  }, [caller]);
+
   const [invitees, setInvitees] = useState(shoppingListInvitees);
 
   useEffect(() => {
@@ -90,7 +109,6 @@ export const ShoppingListInvitees = ({
 };
 
 ShoppingListInvitees.propTypes = {
-  users: PropTypes.arrayOf(userType().isRequired).isRequired,
   shoppingListInvitees: PropTypes.arrayOf(shoppingListInviteeType().isRequired).isRequired,
   setShoppingList: PropTypes.func.isRequired,
 };
