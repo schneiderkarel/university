@@ -12,10 +12,12 @@ import Modal from '../components/Modal';
 import CallerContext from '../context/caller.context';
 import Client from '../client/client';
 import ShoppingListCreateModalContent from '../components/ShoppingListCreateModalContent';
+import AlertContext from '../context/alert.context';
 
 const ShoppingLists = () => {
   const [modalContent, setModalContent] = useContext(ModalContext);
   const [caller] = useContext(CallerContext);
+  const [, setAlert] = useContext(AlertContext);
 
   const [shoppingLists, setShoppingLists] = useState([]);
 
@@ -27,7 +29,7 @@ const ShoppingLists = () => {
         const resp = await client.user(caller);
         setShoppingLists(resp.shoppingLists);
       } catch (err) {
-        console.error(err);
+        setAlert({ variant: 'danger', message: err.message });
       }
     };
 

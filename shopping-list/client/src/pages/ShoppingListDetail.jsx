@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import { Form, Spinner } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
@@ -8,12 +8,15 @@ import { ShoppingListItems } from './ShoppingListItems';
 import { isUserShoppingListOwner } from './helper';
 import CallerContext from '../context/caller.context';
 import Client from '../client/client';
+import AlertContext from '../context/alert.context';
 
 const ShoppingListDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const client = new Client();
 
   const [caller] = useContext(CallerContext);
+  const [, setAlert] = useContext(AlertContext);
   const [shoppingList, setShoppingList] = useState();
 
   useEffect(() => {
@@ -22,7 +25,8 @@ const ShoppingListDetail = () => {
         const resp = await client.shoppingList(caller, id);
         setShoppingList(resp);
       } catch (err) {
-        console.error(err);
+        setAlert({ variant: 'danger', message: err.message });
+        navigate('/');
       }
     };
 
@@ -46,8 +50,9 @@ const ShoppingListDetail = () => {
     try {
       const resp = await client.updateShoppingList(caller, id, updateShoppingList);
       setShoppingList(resp);
+      setAlert({ variant: 'success', message: 'Shopping list updated successfully.' });
     } catch (err) {
-      console.error(err);
+      setAlert({ variant: 'danger', message: err.message });
     }
   };
 
@@ -55,7 +60,7 @@ const ShoppingListDetail = () => {
     try {
       await client.leaveShoppingList(caller, id);
     } catch (err) {
-      console.error(err);
+      setAlert({ variant: 'danger', message: err.message });
     }
   };
 

@@ -6,6 +6,7 @@ import { ShoppingListInvitee } from './ShoppingListInvitee';
 import { shoppingListInviteeType } from '../types/types';
 import CallerContext from '../context/caller.context';
 import Client from '../client/client';
+import AlertContext from '../context/alert.context';
 
 export const ShoppingListInvitees = ({
   shoppingListInvitees,
@@ -13,6 +14,7 @@ export const ShoppingListInvitees = ({
 }) => {
   const client = new Client();
   const [caller] = useContext(CallerContext);
+  const [, setAlert] = useContext(AlertContext);
 
   const [users, setUsers] = useState([]);
 
@@ -22,7 +24,7 @@ export const ShoppingListInvitees = ({
         const resp = await client.users(caller);
         setUsers(resp.filter((user) => user.id !== caller));
       } catch (err) {
-        console.error(err);
+        setAlert({ variant: 'danger', message: err.message });
       }
     };
 

@@ -15,11 +15,13 @@ import ShoppingListRemoveModalContent from './ShoppingListRemoveModalContent';
 import { isUserShoppingListOwner } from '../pages/helper';
 import CallerContext from '../context/caller.context';
 import Client from '../client/client';
+import AlertContext from '../context/alert.context';
 
 const ShoppingListCard = ({ id }) => {
   const [, setModalContent] = useContext(ModalContext);
   const client = new Client();
   const [caller] = useContext(CallerContext);
+  const [, setAlert] = useContext(AlertContext);
 
   const [shoppingList, setShoppingList] = useState();
 
@@ -29,7 +31,7 @@ const ShoppingListCard = ({ id }) => {
         const resp = await client.shoppingList(caller, id);
         setShoppingList(resp);
       } catch (err) {
-        console.error(err);
+        setAlert({ variant: 'danger', message: err.message });
       }
     };
 
@@ -64,9 +66,8 @@ const ShoppingListCard = ({ id }) => {
     try {
       const resp = await client.updateShoppingList(caller, id, updateShoppingList);
       setShoppingList(resp);
-      window.location.reload();
     } catch (err) {
-      console.error(err);
+      console.error(err.message);
     }
   };
 

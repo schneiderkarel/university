@@ -19,10 +19,8 @@ class Client {
     switch (response.status) {
     case 200:
       return body.data;
-    case 404:
-      throw Error(body.error.title);
     default:
-      throw Error(body.error.title);
+      throw Error('There was an unexpected error when loading users. Please, try again.');
     }
   }
 
@@ -41,9 +39,9 @@ class Client {
     case 200:
       return body.data;
     case 404:
-      throw Error(body.error.title);
+      throw Error('User unexpectedly not found.');
     default:
-      throw Error(body.error.title);
+      throw Error('There was an unexpected error when loading the user. Please, try again.');
     }
   }
 
@@ -61,10 +59,12 @@ class Client {
     switch (response.status) {
     case 200:
       return body.data;
+    case 400:
+      throw Error('You are not permitted to view the shopping list.');
     case 404:
-      throw Error(body.error.title);
+      throw Error('Shopping list unexpectedly not found.');
     default:
-      throw Error(body.error.title);
+      throw Error('There was an unexpected error when loading the shopping list. Please, try again.');
     }
   }
 
@@ -83,10 +83,10 @@ class Client {
     switch (response.status) {
     case 200:
       return body.data;
-    case 404:
-      throw Error(body.error.title);
+    case 422:
+      throw Error(`There is a problem with your input: ${body.error.detail}.`);
     default:
-      throw Error(body.error.title);
+      throw Error('There was an unexpected error when creating the shopping list. Please, try again.');
     }
   }
 
@@ -106,9 +106,11 @@ class Client {
     case 200:
       return body.data;
     case 404:
-      throw Error(body.error.title);
+      throw Error('Shopping list unexpectedly not found.');
+    case 422:
+      throw Error(`There is a problem with your input: ${body.error.detail}.`);
     default:
-      throw Error(body.error.title);
+      throw Error('There was an unexpected error when updating the shopping list. Please, try again.');
     }
   }
 
@@ -122,8 +124,12 @@ class Client {
     });
 
     if (response.status !== 204) {
-      const body = await response.json();
-      throw Error(body.error.title);
+      switch (response.status) {
+      case 400:
+        throw Error('You are not permitted to remove the shopping list.');
+      default:
+        throw Error('There was an unexpected error when removing the shopping list. Please, try again.');
+      }
     }
   }
 
@@ -137,8 +143,12 @@ class Client {
     });
 
     if (response.status !== 204) {
-      const body = await response.json();
-      throw Error(body.error.title);
+      switch (response.status) {
+      case 400:
+        throw Error('You are not permitted to leave the shopping list.');
+      default:
+        throw Error('There was an unexpected error when removing the shopping list. Please, try again.');
+      }
     }
   }
 }
