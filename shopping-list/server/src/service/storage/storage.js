@@ -1,6 +1,6 @@
 import { MongoClient, ObjectId } from 'mongodb';
 import UserNotFoundError from '../../model/error/userNotFoundError.js';
-import { noChangesAfterUpdate } from './utils.js';
+import ShoppingListNotFoundError from '../../model/error/shoppingListNotFoundError.js';
 
 class Storage {
   database;
@@ -67,10 +67,6 @@ class Storage {
       { $set: updateUser },
     );
 
-    if (noChangesAfterUpdate(updateResult)) {
-      throw new UserNotFoundError();
-    }
-
     const updatedUser = await usersCollection.findOne({ _id: new ObjectId(id) });
 
     return {
@@ -86,6 +82,9 @@ class Storage {
     const shoppingListsCollection = this.database.collection('shopping_lists');
 
     const shoppingList = await shoppingListsCollection.findOne({ _id: new ObjectId(id) });
+    if (!shoppingList) {
+      throw new ShoppingListNotFoundError();
+    }
 
     const usersCollection = this.database.collection('users');
 
@@ -139,6 +138,9 @@ class Storage {
     const { insertedId: id } = await shoppingListsCollection.insertOne(creteShoppingList);
 
     const createdShoppingList = await shoppingListsCollection.findOne({ _id: id });
+    if (!createdShoppingList) {
+      throw new ShoppingListNotFoundError();
+    }
 
     const usersCollection = this.database.collection('users');
 
@@ -194,22 +196,25 @@ class Storage {
       { _id: new ObjectId(id) },
     );
 
+    if (!beforeUpdateShoppingList) {
+      throw new ShoppingListNotFoundError();
+    }
+
     const updateResult = await shoppingListsCollection.updateOne(
       { _id: new ObjectId(id) },
       { $set: updateShoppingList },
     );
 
-    if (noChangesAfterUpdate(updateResult)) {
-      throw new UserNotFoundError();
-    }
-
     const updatedShoppingList = await shoppingListsCollection.findOne({ _id: new ObjectId(id) });
+    if (!updatedShoppingList) {
+      throw new ShoppingListNotFoundError();
+    }
 
     const usersCollection = this.database.collection('users');
 
-    const invitees = [];
-
     await this.handleRemovedInvitees(beforeUpdateShoppingList, updatedShoppingList);
+
+    const invitees = [];
 
     for (let i = 0; i < updatedShoppingList.invitees.length; i += 1) {
       const invitee = updatedShoppingList.invitees[i];
