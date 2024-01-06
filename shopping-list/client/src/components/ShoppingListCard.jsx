@@ -137,9 +137,11 @@ const ShoppingListCard = ({ id }) => {
       </CardBody>
       <CardBody className="d-flex align-items-end justify-content-between">
         <div className="d-flex align-items-center">
-          <span className="d-flex align-items-center small">
-            {`Items: ${shoppingList.items.filter((item) => item.resolved).length}/${shoppingList.items.length}`}
-          </span>
+          {shoppingList.items.length !== 0 && (
+            <span className="small">
+              {`Items: ${shoppingList.items.filter((item) => item.resolved).length}/${shoppingList.items.length}`}
+            </span>
+          )}
         </div>
         <div className="d-flex justify-content-end">{buttonSection()}</div>
       </CardBody>
