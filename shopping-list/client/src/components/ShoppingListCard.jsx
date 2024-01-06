@@ -83,6 +83,7 @@ const ShoppingListCard = ({ id }) => {
 
   const buttonSection = () => (
     <SplitButton
+      className="d-flex align-items-end"
       href={`/shopping-lists/${shoppingList.id}`}
       variant="primary"
       title={t('ShoppingListCard.title')}
@@ -134,8 +135,13 @@ const ShoppingListCard = ({ id }) => {
           {ceilingText(shoppingList.description, DESCRIPTION_CHAR_CEILING)}
         </CardText>
       </CardBody>
-      <CardBody className="d-flex justify-content-end align-items-end">
-        {buttonSection()}
+      <CardBody className="d-flex align-items-end justify-content-between">
+        <div className="d-flex align-items-center">
+          <span className="d-flex align-items-center small">
+            {`Items: ${shoppingList.items.filter((item) => item.resolved).length}/${shoppingList.items.length}`}
+          </span>
+        </div>
+        <div className="d-flex justify-content-end">{buttonSection()}</div>
       </CardBody>
     </CardWrap>
   ) : (

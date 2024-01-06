@@ -87,6 +87,12 @@ i18n
               remove: 'Remove',
             },
           },
+          ShoppingListItemsPieChart: {
+            titles: {
+              resolved: 'Resolved',
+              unresolved: 'Unresolved',
+            },
+          },
           Alert: {
             createShoppingList: {
               message: 'Shopping list created successfully.',
@@ -205,6 +211,12 @@ i18n
               archive: 'Archivovat',
               unarchive: 'Obnovit',
               remove: 'Odstranit',
+            },
+          },
+          ShoppingListItemsPieChart: {
+            titles: {
+              resolved: 'Označené',
+              unresolved: 'Neoznačené',
             },
           },
           Alert: {

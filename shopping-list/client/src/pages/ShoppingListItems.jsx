@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import ShoppingListItem from './ShoppingListItem';
 import { shoppingListItemType } from '../types/types';
+import ShoppingListItemsPieChart from '../components/ShoppingListItemsPieChart';
 
 const ShoppingListItems = ({ shoppingListItems, setShoppingList }) => {
   const { t } = useTranslation();
@@ -91,6 +92,12 @@ const ShoppingListItems = ({ shoppingListItems, setShoppingList }) => {
           </span>
         )}
       </div>
+
+      {itemsNotEmpty(items) && (
+        <div className="d-flex align-items-center justify-content-center my-5 h-50">
+          <ShoppingListItemsPieChart items={shoppingListItems} />
+        </div>
+      )}
     </FormGroup>
   );
 };
