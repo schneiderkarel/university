@@ -1,7 +1,5 @@
-import Router from 'koa-joi-router';
+import KoaJoiRouter from 'koa-joi-router';
 import Joi from 'joi';
-import Controller from '../../controller/controller.js';
-import Storage from '../../../service/storage/storage.js';
 import {
   idSchema,
   userSchema,
@@ -10,199 +8,208 @@ import {
   shoppingListSchemaOut,
 } from './schema/schema.js';
 
-const apiRouter = Router();
+class Router {
+  router;
 
-const storage = new Storage(process.env.DB_DSN);
-const controller = new Controller(storage);
+  constructor(controller) {
+    const router = KoaJoiRouter();
 
-apiRouter.route({
-  method: 'get',
-  path: '/users',
-  validate: {
-    header: Joi.object({
-      caller: idSchema.required(),
-    }).options({
-      allowUnknown: true,
-    }).required(),
-    output: {
-      200: {
+    router.route({
+      method: 'get',
+      path: '/users',
+      validate: {
+        header: Joi.object({
+          caller: idSchema.required(),
+        }).options({
+          allowUnknown: true,
+        }).required(),
+        output: {
+          200: {
+            body: Joi.object({
+              data: Joi.array().items(usersSchema).required(),
+            }),
+          },
+        },
+      },
+      handler: async (ctx) => {
+        await controller.users(ctx);
+      },
+    });
+
+    router.route({
+      method: 'post',
+      path: '/users',
+      validate: {
+        type: 'json',
         body: Joi.object({
-          data: Joi.array().items(usersSchema).required(),
-        }),
+          name: Joi.string().required(),
+        }).required(),
+        output: {
+          200: {
+            body: Joi.object({
+              data: userSchema.required(),
+            }),
+          },
+        },
       },
-    },
-  },
-  handler: async (ctx) => {
-    await controller.users(ctx);
-  },
-});
-
-apiRouter.route({
-  method: 'post',
-  path: '/users',
-  validate: {
-    type: 'json',
-    body: Joi.object({
-      name: Joi.string().required(),
-    }).required(),
-    output: {
-      200: {
-        body: Joi.object({
-          data: userSchema.required(),
-        }),
+      handler: async (ctx) => {
+        await controller.createUser(ctx);
       },
-    },
-  },
-  handler: async (ctx) => {
-    await controller.createUser(ctx);
-  },
-});
+    });
 
-apiRouter.route({
-  method: 'get',
-  path: '/users/:id',
-  validate: {
-    params: {
-      id: idSchema.required(),
-    },
-    header: Joi.object({
-      caller: idSchema.required(),
-    }).options({
-      allowUnknown: true,
-    }).required(),
-    output: {
-      200: {
-        body: Joi.object({
-          data: userSchema.required(),
-        }),
+    router.route({
+      method: 'get',
+      path: '/users/:id',
+      validate: {
+        params: {
+          id: idSchema.required(),
+        },
+        header: Joi.object({
+          caller: idSchema.required(),
+        }).options({
+          allowUnknown: true,
+        }).required(),
+        output: {
+          200: {
+            body: Joi.object({
+              data: userSchema.required(),
+            }),
+          },
+        },
       },
-    },
-  },
-  handler: async (ctx) => {
-    await controller.user(ctx);
-  },
-});
-
-apiRouter.route({
-  method: 'post',
-  path: '/shopping-lists',
-  validate: {
-    header: Joi.object({
-      caller: idSchema.required(),
-    }).options({
-      allowUnknown: true,
-    }).required(),
-    type: 'json',
-    body: shoppingListSchemaIn.required(),
-    output: {
-      200: {
-        body: Joi.object({
-          data: shoppingListSchemaOut.required(),
-        }),
+      handler: async (ctx) => {
+        await controller.user(ctx);
       },
-    },
-  },
-  handler: async (ctx) => {
-    await controller.createShoppingList(ctx);
-  },
-});
+    });
 
-apiRouter.route({
-  method: 'get',
-  path: '/shopping-lists/:id',
-  validate: {
-    params: {
-      id: idSchema.required(),
-    },
-    header: Joi.object({
-      caller: idSchema.required(),
-    }).options({
-      allowUnknown: true,
-    }).required(),
-    output: {
-      200: {
-        body: Joi.object({
-          data: shoppingListSchemaOut.required(),
-        }),
+    router.route({
+      method: 'post',
+      path: '/shopping-lists',
+      validate: {
+        header: Joi.object({
+          caller: idSchema.required(),
+        }).options({
+          allowUnknown: true,
+        }).required(),
+        type: 'json',
+        body: shoppingListSchemaIn.required(),
+        output: {
+          200: {
+            body: Joi.object({
+              data: shoppingListSchemaOut.required(),
+            }),
+          },
+        },
       },
-    },
-  },
-  handler: async (ctx) => {
-    await controller.shoppingList(ctx);
-  },
-});
-
-apiRouter.route({
-  method: 'patch',
-  path: '/shopping-lists/:id',
-  validate: {
-    params: {
-      id: idSchema.required(),
-    },
-    header: Joi.object({
-      caller: idSchema.required(),
-    }).options({
-      allowUnknown: true,
-    }).required(),
-    type: 'json',
-    body: shoppingListSchemaIn.required(),
-    output: {
-      200: {
-        body: Joi.object({
-          data: shoppingListSchemaOut.required(),
-        }),
+      handler: async (ctx) => {
+        await controller.createShoppingList(ctx);
       },
-    },
-  },
-  handler: async (ctx) => {
-    await controller.updateShoppingList(ctx);
-  },
-});
+    });
 
-apiRouter.route({
-  method: 'delete',
-  path: '/shopping-lists/:id',
-  validate: {
-    params: {
-      id: idSchema.required(),
-    },
-    header: Joi.object({
-      caller: idSchema.required(),
-    }).options({
-      allowUnknown: true,
-    }).required(),
-    output: {
-      204: {
-        body: Joi.string().allow('').empty().required(),
+    router.route({
+      method: 'get',
+      path: '/shopping-lists/:id',
+      validate: {
+        params: {
+          id: idSchema.required(),
+        },
+        header: Joi.object({
+          caller: idSchema.required(),
+        }).options({
+          allowUnknown: true,
+        }).required(),
+        output: {
+          200: {
+            body: Joi.object({
+              data: shoppingListSchemaOut.required(),
+            }),
+          },
+        },
       },
-    },
-  },
-  handler: async (ctx) => {
-    await controller.removeShoppingList(ctx);
-  },
-});
-
-apiRouter.route({
-  method: 'delete',
-  path: '/shopping-lists/:id/leave',
-  validate: {
-    params: {
-      id: idSchema.required(),
-    },
-    header: Joi.object({
-      caller: idSchema.required(),
-    }).options({
-      allowUnknown: true,
-    }).required(),
-    output: {
-      204: {
-        body: Joi.string().allow('').empty().required(),
+      handler: async (ctx) => {
+        await controller.shoppingList(ctx);
       },
-    },
-  },
-  handler: async (ctx) => {
-    await controller.leaveShoppingList(ctx);
-  },
-});
+    });
 
-export default apiRouter;
+    router.route({
+      method: 'patch',
+      path: '/shopping-lists/:id',
+      validate: {
+        params: {
+          id: idSchema.required(),
+        },
+        header: Joi.object({
+          caller: idSchema.required(),
+        }).options({
+          allowUnknown: true,
+        }).required(),
+        type: 'json',
+        body: shoppingListSchemaIn.required(),
+        output: {
+          200: {
+            body: Joi.object({
+              data: shoppingListSchemaOut.required(),
+            }),
+          },
+        },
+      },
+      handler: async (ctx) => {
+        await controller.updateShoppingList(ctx);
+      },
+    });
+
+    router.route({
+      method: 'delete',
+      path: '/shopping-lists/:id',
+      validate: {
+        params: {
+          id: idSchema.required(),
+        },
+        header: Joi.object({
+          caller: idSchema.required(),
+        }).options({
+          allowUnknown: true,
+        }).required(),
+        output: {
+          204: {
+            body: Joi.string().allow('').empty().required(),
+          },
+        },
+      },
+      handler: async (ctx) => {
+        await controller.removeShoppingList(ctx);
+      },
+    });
+
+    router.route({
+      method: 'delete',
+      path: '/shopping-lists/:id/leave',
+      validate: {
+        params: {
+          id: idSchema.required(),
+        },
+        header: Joi.object({
+          caller: idSchema.required(),
+        }).options({
+          allowUnknown: true,
+        }).required(),
+        output: {
+          204: {
+            body: Joi.string().allow('').empty().required(),
+          },
+        },
+      },
+      handler: async (ctx) => {
+        await controller.leaveShoppingList(ctx);
+      },
+    });
+
+    this.router = router;
+  }
+
+  middleware() {
+    return this.router.middleware();
+  }
+}
+
+export default Router;

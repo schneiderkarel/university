@@ -3,8 +3,10 @@ import Koa from 'koa';
 import cors from '@koa/cors';
 import { HttpMethodEnum, koaBody } from 'koa-body';
 import errorMiddleware from './middleware/error/error.js';
-import apiRouter from './router/api/router.js';
-import monitoringRouter from './router/monitoring/router.js';
+import ApiRouter from './router/api/router.js';
+import MonitoringRouter from './router/monitoring/router.js';
+import Storage from '../service/storage/storage.js';
+import Controller from './controller/controller.js';
 
 const { API_SERVER_PORT } = process.env;
 const { MONITORING_SERVER_PORT } = process.env;
@@ -13,6 +15,12 @@ const app = new Koa();
 const monitoring = new Koa();
 
 const main = async () => {
+  const storage = new Storage(process.env.DB_DSN);
+  const controller = new Controller(storage);
+
+  const apiRouter = new ApiRouter(controller);
+  const monitoringRouter = new MonitoringRouter();
+
   app.use(cors());
 
   monitoring.use(
