@@ -89,7 +89,7 @@ class Controller {
     ctx.body = {
       data: {
         ...createdShoppingList,
-        role: defineShoppingListRole(user.id, createdShoppingList.invitees),
+        role: 'owner',
       },
     };
   }

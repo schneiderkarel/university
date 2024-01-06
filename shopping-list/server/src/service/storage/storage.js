@@ -32,9 +32,9 @@ class Storage {
 
     const shoppingListsCollection = this.database.collection('shopping_lists');
 
-    let shoppingLists = [];
+    const shoppingLists = [];
 
-    for (let i = 0; i < user.shoppingLists.length; i+=1) {
+    for (let i = 0; i < user.shoppingLists.length; i += 1) {
       const shoppingList = await shoppingListsCollection.findOne({ _id: user.shoppingLists[i] });
       if (!shoppingList) {
         throw new ShoppingListNotFoundError();
@@ -43,14 +43,14 @@ class Storage {
       shoppingLists.push({
         id: shoppingList._id.toHexString(),
         name: shoppingList.name,
-        archived: shoppingList.archived
+        archived: shoppingList.archived,
       });
     }
 
     return {
       id: user._id.toHexString(),
       name: user.name,
-      shoppingLists: shoppingLists,
+      shoppingLists,
     };
   }
 
@@ -77,7 +77,7 @@ class Storage {
       shoppingLists: user.shoppingLists.map((shoppingList) => new ObjectId(shoppingList.id)),
     };
 
-    const updateResult = await usersCollection.updateOne(
+    await usersCollection.updateOne(
       { _id: new ObjectId(id) },
       { $set: updateUser },
     );
@@ -215,7 +215,7 @@ class Storage {
       throw new ShoppingListNotFoundError();
     }
 
-    const updateResult = await shoppingListsCollection.updateOne(
+    await shoppingListsCollection.updateOne(
       { _id: new ObjectId(id) },
       { $set: updateShoppingList },
     );
